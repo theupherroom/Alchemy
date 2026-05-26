@@ -100,12 +100,7 @@ export default async function BrowsePage({
               Could not load profiles. Refresh to try again.
             </p>
           ) : list.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-16 text-center">
-              <p className="display text-2xl text-ink">No profiles match yet.</p>
-              <p className="mt-2 text-sm text-muted">
-                Loosen a filter — or you may be among the earliest to arrive.
-              </p>
-            </div>
+            <BrowseEmpty hasFilters={Boolean(params.sector || params.stage || params.geo || params.partnership_type)} />
           ) : (
             <div className="grid gap-5 md:grid-cols-2">
               {list.map((profile) => (
@@ -119,6 +114,43 @@ export default async function BrowsePage({
           )}
         </div>
       </section>
+    </div>
+  );
+}
+
+function BrowseEmpty({ hasFilters }: { hasFilters: boolean }) {
+  if (hasFilters) {
+    return (
+      <div className="rounded-2xl border border-dashed border-border bg-white px-6 py-16 text-center">
+        <p className="display text-2xl text-ink">
+          Nothing matches those filters.
+        </p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-muted">
+          Loosen one or two to widen the lens. Strategic matches sometimes sit
+          one sector over from where you'd expect.
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div className="overflow-hidden rounded-2xl border border-dashed border-border bg-white px-6 py-16 text-center">
+      <p className="alias-code text-xs uppercase tracking-[0.22em] text-bronze">
+        You&apos;re early
+      </p>
+      <p className="display mt-3 text-2xl text-ink md:text-3xl">
+        The room is still filling.
+      </p>
+      <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted">
+        You&apos;re among the first members of the alchemy beta. As more
+        mission-driven leaders join, you&apos;ll start seeing scored matches
+        here. Forward an invite to a peer to seed the network.
+      </p>
+      <p className="mx-auto mt-4 max-w-md text-xs text-muted">
+        Invite link:{" "}
+        <span className="alias-code text-primary-fg">
+          alchemy.theupherroom.com/signup
+        </span>
+      </p>
     </div>
   );
 }

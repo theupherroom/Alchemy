@@ -8,6 +8,7 @@ import { Select } from "@/components/ui/Select";
 import { Label } from "@/components/ui/Label";
 import { FieldError } from "@/components/ui/FieldError";
 import { Divider } from "@/components/ui/Divider";
+import { ProgressRail } from "@/components/onboarding/ProgressRail";
 import {
   GEO_OPTIONS,
   ORG_TYPE_OPTIONS,
@@ -21,6 +22,12 @@ import {
 } from "./actions";
 
 const initialState: OnboardingFormState = {};
+
+const SECTIONS = [
+  { id: "work", label: "Work" },
+  { id: "exchange", label: "Exchange" },
+  { id: "private", label: "Private" },
+];
 
 export function OnboardingForm({ email }: { email: string }) {
   const [state, formAction, pending] = useActionState(
@@ -41,7 +48,9 @@ export function OnboardingForm({ email }: { email: string }) {
     <form action={formAction} className="space-y-10">
       <input type="hidden" name="timezone" value={timezone} />
 
-      <section className="space-y-6">
+      <ProgressRail sections={SECTIONS} />
+
+      <section className="space-y-6" data-section="work">
         <SectionHeading
           eyebrow="What you do"
           title="The work you bring."
@@ -139,7 +148,7 @@ export function OnboardingForm({ email }: { email: string }) {
 
       <Divider />
 
-      <section className="space-y-6">
+      <section className="space-y-6" data-section="exchange">
         <SectionHeading
           eyebrow="The exchange"
           title="What you bring, what you need."
@@ -201,7 +210,7 @@ export function OnboardingForm({ email }: { email: string }) {
 
       <Divider />
 
-      <section className="space-y-6">
+      <section className="space-y-6" data-section="private">
         <SectionHeading
           eyebrow="Private — never shown to other members"
           title="Who you actually are."
