@@ -74,8 +74,8 @@ export default async function OnboardingWelcomePage() {
                   </p>
                 </div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <Link href="/browse">
-                    <Button>Continue to browse</Button>
+                  <Link href="/dashboard">
+                    <Button>Continue to dashboard</Button>
                   </Link>
                   <Link href="/api/google/connect">
                     <Button variant="outline">Connect Google Calendar</Button>

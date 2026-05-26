@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { Grain } from "@/components/landing/Grain";
 import { Reveal } from "@/components/landing/Reveal";
 import { SampleCard } from "@/components/landing/SampleCard";
+import { UpHerRoomSection } from "@/components/landing/UpHerRoomSection";
+import { MarketingFooter } from "@/components/landing/MarketingFooter";
 
 export const dynamic = "force-dynamic";
 
@@ -32,9 +34,10 @@ export default async function Home() {
         <ExchangeSection />
         <HowItWorks />
         <RevealSection />
+        <UpHerRoomSection />
         <Trust />
         <FinalCta signedIn={Boolean(user)} />
-        <Footer />
+        <MarketingFooter />
       </div>
     </div>
   );
@@ -47,7 +50,7 @@ function Header({ signedIn }: { signedIn: boolean }) {
       <nav className="flex items-center gap-3 text-sm">
         {signedIn ? (
           <Link
-            href="/browse"
+            href="/dashboard"
             className="group inline-flex items-center gap-2 rounded-full bg-ink py-2 pl-5 pr-2 text-sm font-medium text-cream transition-[transform,opacity] active:scale-[0.98]"
           >
             Open the app
@@ -110,7 +113,7 @@ function Hero({ signedIn }: { signedIn: boolean }) {
         <Reveal delay={240}>
           <div className="flex flex-wrap items-center gap-5">
             <Link
-              href={signedIn ? "/browse" : "/signup"}
+              href={signedIn ? "/dashboard" : "/signup"}
               className="group inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-7 pr-3 text-sm font-medium text-white transition-[transform,opacity] active:scale-[0.98] hover:opacity-95"
             >
               {signedIn ? "Open the app" : "Start your anonymous profile"}
@@ -366,7 +369,7 @@ function FinalCta({ signedIn }: { signedIn: boolean }) {
               </p>
               <div className="pt-2">
                 <Link
-                  href={signedIn ? "/browse" : "/signup"}
+                  href={signedIn ? "/dashboard" : "/signup"}
                   className="group inline-flex items-center gap-2 rounded-full bg-ink py-3 pl-7 pr-3 text-sm font-medium text-cream transition-[transform,opacity] active:scale-[0.98]"
                 >
                   {signedIn ? "Open the app" : "Create your account"}
@@ -380,24 +383,6 @@ function FinalCta({ signedIn }: { signedIn: boolean }) {
         </div>
       </Reveal>
     </section>
-  );
-}
-
-function Footer() {
-  return (
-    <footer className="border-t border-border/60">
-      <div className="container-site flex flex-wrap items-center justify-between gap-4 py-8 text-xs text-muted">
-        <span>© Alchemy — a tool of The UpHer Room Inc.</span>
-        <div className="flex gap-5">
-          <Link href="/login" className="hover:text-ink">
-            Sign in
-          </Link>
-          <Link href="/signup" className="hover:text-ink">
-            Create account
-          </Link>
-        </div>
-      </div>
-    </footer>
   );
 }
 

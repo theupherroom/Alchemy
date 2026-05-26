@@ -21,7 +21,7 @@ export default async function LoginPage({
         </p>
       </div>
 
-      <LoginForm next={next ?? "/browse"} />
+      <LoginForm next={next ?? "/dashboard"} />
 
       <p className="text-sm text-muted">
         New here?{" "}
