@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { Grain } from "@/components/landing/Grain";
+import { Reveal } from "@/components/landing/Reveal";
+import { SampleCard } from "@/components/landing/SampleCard";
 
 export const dynamic = "force-dynamic";
 
@@ -10,55 +13,110 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   return (
-    <main className="min-h-[100dvh] bg-cream">
-      <header className="container-site flex h-20 items-center justify-between">
-        <span className="display text-xl text-ink">alchemy</span>
-        <div className="flex items-center gap-4 text-sm">
-          {user ? (
-            <Link
-              href="/browse"
-              className="rounded-full bg-primary px-5 py-2 text-white transition-opacity hover:opacity-90"
-            >
-              Open app
-            </Link>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="text-muted transition-colors duration-200 hover:text-ink"
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/signup"
-                className="rounded-full bg-primary px-5 py-2 text-white transition-opacity hover:opacity-90"
-              >
-                Get started
-              </Link>
-            </>
-          )}
-        </div>
-      </header>
+    <div className="relative min-h-[100dvh] overflow-x-hidden bg-cream">
+      <Grain />
 
-      <section className="container-site grid items-center gap-16 py-20 md:grid-cols-[1.1fr_1fr] md:py-32">
-        <div className="space-y-8">
-          <p className="eyebrow">A tool of The UpHer Room</p>
-          <h1 className="display text-5xl text-ink md:text-7xl">
-            Mission first. <br />
+      {/* ambient color washes */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-32 -left-32 h-[480px] w-[480px] rounded-full bg-primary-bg/50 blur-[120px]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[40%] -right-40 h-[520px] w-[520px] rounded-full bg-secondary-bg/60 blur-[140px]"
+      />
+
+      <div className="relative z-10">
+        <Header signedIn={Boolean(user)} />
+        <Hero signedIn={Boolean(user)} />
+        <ExchangeSection />
+        <HowItWorks />
+        <RevealSection />
+        <Trust />
+        <FinalCta signedIn={Boolean(user)} />
+        <Footer />
+      </div>
+    </div>
+  );
+}
+
+function Header({ signedIn }: { signedIn: boolean }) {
+  return (
+    <header className="container-site flex h-20 items-center justify-between">
+      <span className="display text-xl text-ink">alchemy</span>
+      <nav className="flex items-center gap-3 text-sm">
+        {signedIn ? (
+          <Link
+            href="/browse"
+            className="group inline-flex items-center gap-2 rounded-full bg-ink py-2 pl-5 pr-2 text-sm font-medium text-cream transition-[transform,opacity] active:scale-[0.98]"
+          >
+            Open the app
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              <Arrow />
+            </span>
+          </Link>
+        ) : (
+          <>
+            <Link
+              href="/login"
+              className="rounded-full px-3 py-2 text-muted transition-colors duration-200 hover:text-ink"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/signup"
+              className="group inline-flex items-center gap-2 rounded-full bg-ink py-2 pl-5 pr-2 text-sm font-medium text-cream transition-[transform,opacity] active:scale-[0.98]"
+            >
+              Get started
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <Arrow />
+              </span>
+            </Link>
+          </>
+        )}
+      </nav>
+    </header>
+  );
+}
+
+function Hero({ signedIn }: { signedIn: boolean }) {
+  return (
+    <section className="container-site grid items-center gap-16 pt-12 pb-24 md:grid-cols-[1.05fr_1fr] md:pt-20 md:pb-40">
+      <div className="space-y-10">
+        <Reveal>
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-white/60 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-muted backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
+            A tool of The UpHer Room
+          </span>
+        </Reveal>
+
+        <Reveal delay={80}>
+          <h1 className="display text-5xl leading-[1.02] text-ink sm:text-6xl md:text-[5.5rem]">
+            Mission <span className="text-primary">first.</span>
+            <br />
             Identity at the meeting.
           </h1>
-          <p className="max-w-md text-lg leading-relaxed text-muted">
+        </Reveal>
+
+        <Reveal delay={160}>
+          <p className="max-w-lg text-lg leading-relaxed text-muted">
             Alchemy is a bias-blind strategic partnership platform. You meet
             anonymously around the work you each do — and only learn who the
             other person is once the introduction is already on both your
             calendars.
           </p>
-          <div className="flex flex-wrap items-center gap-4 pt-2">
+        </Reveal>
+
+        <Reveal delay={240}>
+          <div className="flex flex-wrap items-center gap-5">
             <Link
-              href="/signup"
-              className="inline-flex h-12 items-center rounded-full bg-primary px-7 text-sm font-medium text-white transition-[transform,opacity] active:scale-[0.98] hover:opacity-90"
+              href={signedIn ? "/browse" : "/signup"}
+              className="group inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-7 pr-3 text-sm font-medium text-white transition-[transform,opacity] active:scale-[0.98] hover:opacity-95"
             >
-              Start your anonymous profile
+              {signedIn ? "Open the app" : "Start your anonymous profile"}
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <Arrow />
+              </span>
             </Link>
             <Link
               href="#how-it-works"
@@ -67,97 +125,327 @@ export default async function Home() {
               How it works ↓
             </Link>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="space-y-4">
+        <Reveal delay={320}>
+          <div className="flex flex-wrap items-center gap-5 pt-6 text-[11px] uppercase tracking-[0.18em] text-muted">
+            <Mark>Anonymous</Mark>
+            <Dot />
+            <Mark>Mission-matched</Mark>
+            <Dot />
+            <Mark>Auto-scheduled</Mark>
+          </div>
+        </Reveal>
+      </div>
+
+      <Reveal delay={200} className="relative">
+        <div className="relative mx-auto max-w-[420px] space-y-5 md:max-w-none">
           <SampleCard
+            tag="Profile · Health"
             alias="Partner Violet-42"
             subtitle="Health · Indianapolis · Strategic"
             mission="We help under-resourced clinics deliver preventive care to women over 50."
+            offer="Vendor relationships, board advisory"
+            need="Funder intros, programme co-design"
             score={87}
+            rotate="-2deg"
+            className="ml-2"
           />
           <SampleCard
+            tag="Profile · Capital"
             alias="Partner Ember-17"
             subtitle="Social impact · National · Advisory"
-            mission="Capital and coaching for women founders in the first five years of building."
+            mission="Capital and coaching for women founders in their first five years."
+            offer="Pre-seed cheques, founder coaching"
+            need="Clinical-sector pipeline, advisors"
             score={72}
+            rotate="1.5deg"
+            className="-mt-12 ml-12 md:ml-20"
           />
         </div>
-      </section>
-
-      <section
-        id="how-it-works"
-        className="container-site grid gap-12 py-20 md:grid-cols-3 md:py-28"
-      >
-        <Step
-          n="01"
-          title="Sign up with an alias."
-          body="Your full name, organisation, and contact details stay private. Other members see Partner Violet-42 — never you."
-        />
-        <Step
-          n="02"
-          title="Browse missions, not headshots."
-          body="The exchange is mission-first. Filter by sector, partnership type, and reach. Match scores rank pairs by genuine fit."
-        />
-        <Step
-          n="03"
-          title="We book the meeting."
-          body="When you both accept, Alchemy reads your free/busy and books a 30-minute intro on Google Meet. You meet — and only then do names appear."
-        />
-      </section>
-
-      <footer className="container-site flex flex-wrap items-center justify-between gap-4 py-8 text-xs text-muted">
-        <span>© Alchemy — a tool of The UpHer Room Inc.</span>
-        <Link href="/login" className="hover:text-ink">
-          Sign in
-        </Link>
-      </footer>
-    </main>
+      </Reveal>
+    </section>
   );
 }
 
-function SampleCard({
-  alias,
-  subtitle,
-  mission,
-  score,
-}: {
-  alias: string;
-  subtitle: string;
-  mission: string;
-  score: number;
-}) {
+function ExchangeSection() {
   return (
-    <div className="rounded-2xl border border-border bg-white p-6 shadow-[var(--shadow-warm)]">
-      <div className="flex items-start justify-between gap-4">
-        <div className="space-y-1">
-          <p className="display text-xl text-ink">{alias}</p>
-          <p className="text-xs text-muted">{subtitle}</p>
-        </div>
-        <span className="alias-code rounded-full bg-primary px-3 py-1 text-xs text-white">
-          {score}% match
-        </span>
+    <section className="border-t border-border/60 bg-white/60 py-24 md:py-32">
+      <div className="container-site grid gap-16 md:grid-cols-2 md:gap-24">
+        <Reveal>
+          <div className="space-y-6 md:sticky md:top-32">
+            <span className="eyebrow">The exchange</span>
+            <h2 className="display text-4xl leading-[1.05] text-ink md:text-6xl">
+              Two missions in conversation.
+            </h2>
+            <p className="max-w-md text-base leading-relaxed text-muted">
+              Every profile leads with mission. What you bring, what you need —
+              concrete is better than aspirational. Claude scores each pair on
+              alignment of mission, partnership type, complementarity, and
+              geographic fit. Most pairs don't match. The ones that do tend to
+              matter.
+            </p>
+            <ul className="space-y-3 pt-4 text-sm text-ink">
+              <Bullet>Sector and partnership-type alignment</Bullet>
+              <Bullet>Complementary needs and offers</Bullet>
+              <Bullet>Honest scores — 80+ reserved for genuine fit</Bullet>
+            </ul>
+          </div>
+        </Reveal>
+
+        <Reveal delay={120} className="space-y-6">
+          <SampleCard
+            tag="Looking for"
+            alias="Partner Saffron-31"
+            subtitle="Education · Regional · Co-program"
+            mission="Out-of-school STEM programming for girls in rural Indiana."
+            offer="Teacher network, classroom integration"
+            need="Curriculum design, scholarship funding"
+            score={91}
+            rotate="0.5deg"
+          />
+          <div className="flex items-center justify-center py-2 text-muted">
+            <svg
+              className="h-6 w-6 animate-pulse"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 7l10 10M17 7L7 17" />
+            </svg>
+          </div>
+          <SampleCard
+            tag="Aligns with"
+            alias="Partner Cedar-58"
+            subtitle="Finance · National · Sponsorship"
+            mission="Scholarship pipeline for first-gen STEM students."
+            offer="Sponsorship budget, alumni network"
+            need="Rural-area programmes, on-the-ground partners"
+            score={91}
+            rotate="-1deg"
+          />
+        </Reveal>
       </div>
-      <div className="my-4 h-px bg-secondary-bg" />
-      <p className="text-sm leading-relaxed text-ink">{mission}</p>
+    </section>
+  );
+}
+
+function HowItWorks() {
+  const steps = [
+    {
+      n: "01",
+      title: "Sign up with an alias.",
+      body: "Your full name, organisation, and contact details stay private. Other members see Partner Violet-42 — never you.",
+    },
+    {
+      n: "02",
+      title: "Browse missions, not headshots.",
+      body: "The exchange is mission-first. Filter by sector, partnership type, and reach. Match scores rank pairs by genuine fit.",
+    },
+    {
+      n: "03",
+      title: "We book the meeting.",
+      body: "When you both accept, Alchemy reads your free/busy and books a 30-minute intro on Google Meet. You meet — and only then do names appear.",
+    },
+  ];
+
+  return (
+    <section
+      id="how-it-works"
+      className="container-site py-24 md:py-32"
+    >
+      <Reveal>
+        <div className="max-w-2xl space-y-4 pb-16">
+          <span className="eyebrow">How it works</span>
+          <h2 className="display text-4xl leading-[1.05] text-ink md:text-6xl">
+            Three steps. No back-and-forth.
+          </h2>
+        </div>
+      </Reveal>
+
+      <div className="grid gap-10 md:grid-cols-3 md:gap-6">
+        {steps.map((s, i) => (
+          <Reveal key={s.n} delay={i * 120}>
+            <div className="group rounded-[1.75rem] border border-border bg-cream-deep/50 p-2 transition-transform duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1">
+              <div className="rounded-[calc(1.75rem-0.5rem)] bg-white p-8 md:min-h-[260px]">
+                <p className="alias-code text-xs text-bronze">{s.n}</p>
+                <h3 className="display mt-6 text-2xl leading-tight text-ink md:text-[1.75rem]">
+                  {s.title}
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-muted">
+                  {s.body}
+                </p>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function RevealSection() {
+  return (
+    <section className="border-y border-border/60 bg-primary-dk text-cream">
+      <div className="container-site py-24 md:py-40">
+        <div className="grid gap-12 md:grid-cols-[1fr_auto] md:items-end md:gap-24">
+          <Reveal>
+            <div className="space-y-8">
+              <span className="alias-code inline-flex items-center gap-2 rounded-full border border-cream/15 bg-cream/5 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-cream/70">
+                <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
+                The reveal
+              </span>
+              <h2 className="display text-4xl leading-[1.04] text-cream md:text-7xl">
+                You learn who they are <br />
+                <span className="text-secondary">when you meet.</span>
+              </h2>
+              <p className="max-w-xl text-base leading-relaxed text-cream/70">
+                Not in the directory. Not in the match request. Not in the
+                calendar invite. Not in the intro email. The first time real
+                names appear is in the meeting itself — where the conversation
+                is already aligned and identity stops carrying the weight.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={160}>
+            <dl className="grid grid-cols-2 gap-x-12 gap-y-6 md:grid-cols-1">
+              <Stat label="Profile setup" value="~5 min" />
+              <Stat label="Time to first match" value="< 24h" />
+              <Stat label="Auto-scheduling" value="30-min" />
+              <Stat label="Identity reveal" value="0 leaks" />
+            </dl>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Trust() {
+  return (
+    <section className="container-site py-24 md:py-32">
+      <Reveal>
+        <div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-16">
+          <div className="space-y-3">
+            <span className="eyebrow">Built for</span>
+            <h2 className="display text-3xl leading-[1.1] text-ink md:text-4xl">
+              Mission-driven founders, women-owned first.
+            </h2>
+          </div>
+          <p className="text-base leading-relaxed text-muted md:text-lg">
+            Alchemy is the first product from The UpHer Room Inc., a community
+            for women-owned businesses. Women-owned organisations get first
+            access; the platform is open to any mission-driven founder,
+            entrepreneur, or organisational leader.
+          </p>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+function FinalCta({ signedIn }: { signedIn: boolean }) {
+  return (
+    <section className="container-site pb-24 md:pb-32">
+      <Reveal>
+        <div className="overflow-hidden rounded-[2rem] border border-border bg-cream-deep/60 p-2">
+          <div className="relative rounded-[calc(2rem-0.5rem)] bg-gradient-to-br from-white via-cream to-secondary-bg/40 px-8 py-16 md:px-16 md:py-24">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary-bg/50 blur-3xl" />
+            <div className="relative max-w-2xl space-y-6">
+              <span className="eyebrow">Begin</span>
+              <h2 className="display text-4xl leading-[1.05] text-ink md:text-6xl">
+                Your alias is waiting.
+              </h2>
+              <p className="max-w-lg text-base leading-relaxed text-muted">
+                Sign up in two minutes. Build your anonymous profile in five.
+                Connect your calendar. Then let the mission lead.
+              </p>
+              <div className="pt-2">
+                <Link
+                  href={signedIn ? "/browse" : "/signup"}
+                  className="group inline-flex items-center gap-2 rounded-full bg-ink py-3 pl-7 pr-3 text-sm font-medium text-cream transition-[transform,opacity] active:scale-[0.98]"
+                >
+                  {signedIn ? "Open the app" : "Create your account"}
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                    <Arrow />
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="border-t border-border/60">
+      <div className="container-site flex flex-wrap items-center justify-between gap-4 py-8 text-xs text-muted">
+        <span>© Alchemy — a tool of The UpHer Room Inc.</span>
+        <div className="flex gap-5">
+          <Link href="/login" className="hover:text-ink">
+            Sign in
+          </Link>
+          <Link href="/signup" className="hover:text-ink">
+            Create account
+          </Link>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="space-y-1.5">
+      <dt className="text-[10px] uppercase tracking-[0.2em] text-cream/50">
+        {label}
+      </dt>
+      <dd className="display text-3xl text-cream md:text-4xl">{value}</dd>
     </div>
   );
 }
 
-function Step({
-  n,
-  title,
-  body,
-}: {
-  n: string;
-  title: string;
-  body: string;
-}) {
+function Bullet({ children }: { children: React.ReactNode }) {
   return (
-    <div className="space-y-3">
-      <p className="alias-code text-xs text-bronze">{n}</p>
-      <h3 className="display text-2xl text-ink">{title}</h3>
-      <p className="text-sm leading-relaxed text-muted">{body}</p>
-    </div>
+    <li className="flex items-start gap-3">
+      <span
+        aria-hidden="true"
+        className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary"
+      />
+      <span>{children}</span>
+    </li>
+  );
+}
+
+function Mark({ children }: { children: React.ReactNode }) {
+  return <span>{children}</span>;
+}
+
+function Dot() {
+  return <span aria-hidden="true" className="h-1 w-1 rounded-full bg-border" />;
+}
+
+function Arrow() {
+  return (
+    <svg
+      className="h-3 w-3"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M7 17L17 7M9 7h8v8" />
+    </svg>
   );
 }
