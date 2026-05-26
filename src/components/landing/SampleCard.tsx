@@ -9,7 +9,7 @@ type SampleCardProps = {
   need: string;
   score: number;
   tag: string;
-  rotate?: string;
+  rotateClass?: string;
   className?: string;
 };
 
@@ -25,7 +25,7 @@ export function SampleCard({
   need,
   score,
   tag,
-  rotate,
+  rotateClass,
   className,
 }: SampleCardProps) {
   const tone =
@@ -38,9 +38,9 @@ export function SampleCard({
       className={cn(
         "group rounded-[2rem] border border-border bg-cream-deep/60 p-2 shadow-[var(--shadow-warm-lg)] backdrop-blur-sm transition-transform duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)]",
         "hover:-translate-y-1",
+        rotateClass,
         className,
       )}
-      style={rotate ? { transform: `rotate(${rotate})` } : undefined}
     >
       <div
         className="relative overflow-hidden rounded-[calc(2rem-0.5rem)] bg-white p-6 md:p-7"

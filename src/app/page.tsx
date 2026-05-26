@@ -148,8 +148,7 @@ function Hero({ signedIn }: { signedIn: boolean }) {
             offer="Vendor relationships, board advisory"
             need="Funder intros, programme co-design"
             score={87}
-            rotate="-2deg"
-            className="ml-2"
+            rotateClass="md:-rotate-2"
           />
           <SampleCard
             tag="Profile · Capital"
@@ -159,8 +158,8 @@ function Hero({ signedIn }: { signedIn: boolean }) {
             offer="Pre-seed cheques, founder coaching"
             need="Clinical-sector pipeline, advisors"
             score={72}
-            rotate="1.5deg"
-            className="-mt-12 ml-12 md:ml-20"
+            rotateClass="md:rotate-2"
+            className="md:-mt-12 md:ml-20"
           />
         </div>
       </Reveal>
@@ -202,7 +201,7 @@ function ExchangeSection() {
             offer="Teacher network, classroom integration"
             need="Curriculum design, scholarship funding"
             score={91}
-            rotate="0.5deg"
+            rotateClass="md:rotate-1"
           />
           <div className="flex items-center justify-center py-2 text-muted">
             <svg
@@ -226,7 +225,7 @@ function ExchangeSection() {
             offer="Sponsorship budget, alumni network"
             need="Rural-area programmes, on-the-ground partners"
             score={91}
-            rotate="-1deg"
+            rotateClass="md:-rotate-1"
           />
         </Reveal>
       </div>

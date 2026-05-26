@@ -3,6 +3,14 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/Badge";
 import { NotificationBell } from "@/components/nav/NotificationBell";
+import { MobileNav } from "@/components/nav/MobileNav";
+
+const NAV_LINKS = [
+  { href: "/browse", label: "Browse" },
+  { href: "/matches", label: "Matches" },
+  { href: "/suggestions", label: "Suggested" },
+  { href: "/profile", label: "Profile" },
+];
 
 export default async function AppLayout({
   children,
@@ -22,8 +30,8 @@ export default async function AppLayout({
 
   return (
     <div className="min-h-[100dvh] bg-cream">
-      <header className="border-b border-border/60 bg-cream/80 backdrop-blur-md">
-        <div className="container-site flex h-16 items-center justify-between">
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-cream/80 backdrop-blur-md">
+        <div className="container-site flex h-16 items-center justify-between gap-3">
           <div className="flex items-center gap-8">
             <Link
               href="/browse"
@@ -32,19 +40,24 @@ export default async function AppLayout({
               alchemy
             </Link>
             <nav className="hidden gap-6 text-sm md:flex">
-              <NavLink href="/browse">Browse</NavLink>
-              <NavLink href="/matches">Matches</NavLink>
-              <NavLink href="/profile">Profile</NavLink>
+              {NAV_LINKS.map((link) => (
+                <NavLink key={link.href} href={link.href}>
+                  {link.label}
+                </NavLink>
+              ))}
             </nav>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 md:gap-3">
             <NotificationBell />
             {profile?.alias ? (
-              <Badge variant="primary" className="alias-code hidden sm:inline-flex">
+              <Badge
+                variant="primary"
+                className="alias-code hidden sm:inline-flex"
+              >
                 {profile.alias}
               </Badge>
             ) : null}
-            <form action="/auth/logout" method="post">
+            <form action="/auth/logout" method="post" className="hidden md:block">
               <button
                 type="submit"
                 className="text-xs text-muted hover:text-ink"
@@ -52,6 +65,7 @@ export default async function AppLayout({
                 Sign out
               </button>
             </form>
+            <MobileNav alias={profile?.alias ?? null} links={NAV_LINKS} />
           </div>
         </div>
       </header>
