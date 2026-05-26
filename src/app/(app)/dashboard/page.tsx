@@ -242,7 +242,7 @@ function Stat({
   return (
     <Link
       href={href}
-      className="group rounded-2xl border border-border bg-white p-5 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-warm)]"
+      className="group rounded-2xl border border-border bg-white p-5 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:shadow-elev"
     >
       <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
         {label}
@@ -270,7 +270,7 @@ function ActionLink({
   return (
     <Link
       href={href}
-      className="group rounded-2xl border border-border bg-white p-5 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:shadow-[var(--shadow-warm)]"
+      className="group rounded-2xl border border-border bg-white p-5 transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:shadow-elev"
     >
       <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-muted">
         {eyebrow}

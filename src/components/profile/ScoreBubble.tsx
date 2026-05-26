@@ -48,10 +48,10 @@ export function ScoreBubble({ score, className, size = "md" }: ScoreBubbleProps)
 
   const tone =
     score >= 80
-      ? "bg-primary text-white"
+      ? "bg-primary text-white shadow-press"
       : score >= 60
         ? "bg-primary-bg text-primary-fg"
-        : "bg-cream-deep text-muted";
+        : "bg-cream-tint text-muted";
 
   return (
     <span

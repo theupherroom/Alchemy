@@ -65,7 +65,7 @@ function SettingsLink({
 }) {
   return (
     <Link href={href} className="group block">
-      <Card className="h-full transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-0.5 group-hover:shadow-[var(--shadow-warm-lg)]">
+      <Card className="h-full transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-0.5 group-hover:shadow-elev-lg">
         <CardBody className="space-y-3">
           <p className="eyebrow">{eyebrow}</p>
           <p className="display text-xl text-ink md:text-2xl">{title}</p>

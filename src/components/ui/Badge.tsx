@@ -1,7 +1,14 @@
 import { type HTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
-type Variant = "neutral" | "primary" | "secondary" | "success" | "warning" | "error";
+type Variant =
+  | "neutral"
+  | "primary"
+  | "primary-solid"
+  | "secondary"
+  | "success"
+  | "warning"
+  | "error";
 
 type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
   variant?: Variant;
@@ -10,10 +17,11 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
 const variants: Record<Variant, string> = {
   neutral: "bg-cream-deep text-ink",
   primary: "bg-primary-bg text-primary-fg",
+  "primary-solid": "bg-primary text-white",
   secondary: "bg-secondary-bg text-secondary-fg",
-  success: "bg-success/10 text-success",
-  warning: "bg-warning/10 text-warning",
-  error: "bg-error/10 text-error",
+  success: "bg-success-bg text-success",
+  warning: "bg-warning-bg text-warning",
+  error: "bg-error-bg text-error",
 };
 
 export function Badge({ className, variant = "neutral", ...rest }: BadgeProps) {

@@ -12,14 +12,16 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-[transform,background-color,color,box-shadow] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background";
+  "inline-flex items-center justify-center gap-2 rounded-full font-medium transition-[transform,background-color,color,box-shadow,border-color] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-white hover:bg-primary-dk",
-  secondary: "bg-primary-bg text-primary-fg hover:bg-secondary-bg",
-  ghost: "bg-transparent text-ink hover:bg-primary-bg/60",
+  primary:
+    "bg-primary text-white shadow-press hover:bg-primary-hover hover:shadow-elev-lg active:bg-primary-active",
+  secondary:
+    "bg-primary-bg text-primary-fg hover:bg-primary-bg-strong active:bg-primary-bg-strong",
+  ghost: "bg-transparent text-ink hover:bg-primary-bg",
   outline:
-    "bg-transparent text-ink border border-border hover:border-primary hover:text-primary",
+    "bg-white text-ink border border-border-strong hover:border-primary hover:bg-primary-bg hover:text-primary-fg",
 };
 
 const sizes: Record<Size, string> = {

@@ -210,12 +210,24 @@ function MatchRowCard({
     .filter(Boolean)
     .join(" · ");
 
+  const isAccepted = match.status === "accepted";
+
   return (
-    <Card className="transition-shadow duration-200 hover:shadow-[var(--shadow-warm-lg)]">
+    <Card
+      className={`group relative overflow-hidden transition-[box-shadow,border-color,transform] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-elev-lg ${
+        isAccepted ? "border-success/40" : ""
+      }`}
+    >
+      {isAccepted ? (
+        <span
+          aria-hidden="true"
+          className="absolute left-0 top-0 h-full w-1 bg-success"
+        />
+      ) : null}
       <CardBody className="space-y-4">
         <Link
           href={`/matches/${match.id}`}
-          className="-m-2 block rounded-2xl p-2 transition-colors duration-200 hover:bg-cream-deep/30"
+          className="-m-2 block rounded-2xl p-2 transition-colors duration-200 group-hover:bg-cream-tint"
         >
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
@@ -225,7 +237,9 @@ function MatchRowCard({
               <p className="text-xs text-muted">{subtitle}</p>
             </div>
             {match.score !== null ? (
-              <Badge variant={match.score >= 80 ? "primary" : "neutral"}>
+              <Badge
+                variant={match.score >= 80 ? "primary-solid" : "neutral"}
+              >
                 {match.score}% match
               </Badge>
             ) : null}
@@ -236,8 +250,8 @@ function MatchRowCard({
           </p>
         </Link>
 
-        {match.status === "accepted" && meeting ? (
-          <div className="rounded-[10px] bg-primary-bg/60 px-4 py-3 text-sm text-primary-fg">
+        {isAccepted && meeting ? (
+          <div className="rounded-[10px] bg-success-bg px-4 py-3 text-sm text-success">
             <p className="font-medium">
               Intro meeting:{" "}
               {new Date(meeting.starts_at).toLocaleString(undefined, {

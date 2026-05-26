@@ -8,7 +8,7 @@ export function Card({ className, ...rest }: CardProps) {
     <div
       className={cn(
         "rounded-2xl border border-border bg-white",
-        "shadow-[var(--shadow-warm)]",
+        "shadow-elev",
         className,
       )}
       {...rest}

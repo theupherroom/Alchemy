@@ -1,0 +1,24 @@
+/*
+ * Legacy palette — saved reference, do NOT import.
+ *
+ * Inherited from sibling project `realher` via theupherroom.com brand family.
+ * Used by Alchemy from initial scaffold (commit 6a82e04) through 20b5c66.
+ *
+ * Swapped out 2026-05-26 because hover states were too subtle and the primary
+ * button didn't pop on cream surfaces. To revert: paste these :root values
+ * back into globals.css.
+ */
+
+:root {
+  --background: #ffffff;
+  --foreground: #2a1f1c;
+
+  --primary: #8052a3;
+  --primary-fg: #4a3468;
+  --primary-bg: #ede3f3;
+  --primary-dk: #21172f;
+
+  --secondary: #e6a7b0;
+  --secondary-fg: #a86878;
+  --secondary-bg: #f5dde3;
+}

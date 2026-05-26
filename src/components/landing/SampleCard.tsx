@@ -36,7 +36,7 @@ export function SampleCard({
   return (
     <div
       className={cn(
-        "group rounded-[2rem] border border-border bg-cream-deep/60 p-2 shadow-[var(--shadow-warm-lg)] backdrop-blur-sm transition-transform duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)]",
+        "group rounded-[2rem] border border-border bg-cream-deep/60 p-2 shadow-elev-lg backdrop-blur-sm transition-transform duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)]",
         "hover:-translate-y-1",
         rotateClass,
         className,

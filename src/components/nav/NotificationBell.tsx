@@ -118,7 +118,7 @@ export function NotificationBell() {
         ) : null}
       </button>
       {open ? (
-        <div className="absolute right-0 z-50 mt-2 w-80 origin-top-right overflow-hidden rounded-2xl border border-border bg-white shadow-[var(--shadow-warm-lg)]">
+        <div className="absolute right-0 z-50 mt-2 w-80 origin-top-right overflow-hidden rounded-2xl border border-border bg-white shadow-elev-lg">
           <div className="border-b border-border px-4 py-3">
             <p className="text-xs font-medium uppercase tracking-[0.12em] text-muted">
               Notifications
