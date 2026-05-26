@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+:root {
+  /* —— Brand palette: mirrored from realher (do not rename tokens) —— */
+  --background: #ffffff;
+  --foreground: #2a1f1c;
+
+  --primary: #8052a3;
+  --primary-fg: #4a3468;
+  --primary-bg: #ede3f3;
+  --primary-dk: #21172f;
+
+  --secondary: #e6a7b0;
+  --secondary-fg: #a86878;
+  --secondary-bg: #f5dde3;
+
+  /* —— Alchemy editorial extensions (cream surfaces, ink, muted) —— */
+  --cream: #fdfbf7;
+  --cream-deep: #f5efe6;
+  --ink: #2a1f1c;
+  --muted: #6b5d58;
+  --border: #e4d9cf;
+  --bronze: #9c6b4f;
+
+  /* —— Semantic —— */
+  --success: #4a7c59;
+  --warning: #c8862c;
+  --error: #b5443f;
+
+  /* —— Elevation: warm shadow only (design.md §4) —— */
+  --shadow-warm: 0 4px 24px rgba(42, 31, 28, 0.06);
+  --shadow-warm-lg: 0 12px 48px rgba(42, 31, 28, 0.08);
+}
+
+@theme {
+  --breakpoint-xs: 420px;
+  --breakpoint-md2: 900px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-primary-bg: var(--primary-bg);
+  --color-primary-dk: var(--primary-dk);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-fg: var(--secondary-fg);
+  --color-secondary-bg: var(--secondary-bg);
+
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-bronze: var(--bronze);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+
+  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+
+  --radius-card: 16px;
+  --radius-input: 10px;
+
+  --shadow-elev: var(--shadow-warm);
+  --shadow-elev-lg: var(--shadow-warm-lg);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.55;
+  }
+
+  ::selection {
+    background: var(--secondary-bg);
+    color: var(--primary-dk);
+  }
+
+  /* Focus rings — design.md §8 */
+  :focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  .display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .alias-code {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility container-site {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    padding-inline: 4rem;
+  }
+}
+
+@utility container-app {
+  width: 100%;
+  max-width: 960px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility container-form {
+  width: 100%;
+  max-width: 640px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
