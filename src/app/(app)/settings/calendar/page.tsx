@@ -5,11 +5,16 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
 
 export const metadata = { title: "Calendar — alchemy" };
+export const dynamic = "force-dynamic";
 
 export default async function CalendarSettingsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{
+    error?: string;
+    connected?: string;
+    disconnected?: string;
+  }>;
 }) {
   const supabase = await createClient();
   const {
@@ -22,8 +27,11 @@ export default async function CalendarSettingsPage({
     .select("calendar_connected")
     .maybeSingle();
 
-  const { error } = await searchParams;
-  const notConfigured = error === "not_configured";
+  const sp = await searchParams;
+  const notConfigured = sp.error === "not_configured";
+  const otherError = sp.error && sp.error !== "not_configured" ? sp.error : null;
+  const justConnected = sp.connected === "1";
+  const justDisconnected = sp.disconnected === "1";
 
   return (
     <div className="container-app py-16">
@@ -40,27 +48,52 @@ export default async function CalendarSettingsPage({
         <CardBody className="space-y-5">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-sm font-medium text-ink">
-                Google Calendar
-              </p>
+              <p className="text-sm font-medium text-ink">Google Calendar</p>
               <p className="text-xs text-muted">
                 {profile?.calendar_connected
                   ? "Connected"
                   : "Not connected — matches cannot be auto-scheduled."}
               </p>
             </div>
-            <Link href="/api/google/connect">
-              <Button variant={profile?.calendar_connected ? "outline" : "primary"}>
-                {profile?.calendar_connected ? "Reconnect" : "Connect"}
-              </Button>
-            </Link>
+            <div className="flex gap-2">
+              <Link href="/api/google/connect">
+                <Button
+                  variant={profile?.calendar_connected ? "outline" : "primary"}
+                >
+                  {profile?.calendar_connected ? "Reconnect" : "Connect"}
+                </Button>
+              </Link>
+              {profile?.calendar_connected ? (
+                <form action="/api/google/disconnect" method="post">
+                  <Button type="submit" variant="ghost">
+                    Disconnect
+                  </Button>
+                </form>
+              ) : null}
+            </div>
           </div>
 
+          {justConnected ? (
+            <p className="rounded-[10px] bg-success/10 px-4 py-3 text-xs text-success">
+              Calendar connected. Future matches will be auto-scheduled.
+            </p>
+          ) : null}
+          {justDisconnected ? (
+            <p className="rounded-[10px] bg-warning/10 px-4 py-3 text-xs text-warning">
+              Calendar disconnected. Auto-scheduling is paused until you
+              reconnect.
+            </p>
+          ) : null}
           {notConfigured ? (
             <p className="rounded-[10px] bg-warning/10 px-4 py-3 text-xs text-warning">
-              Google OAuth is not yet configured on this deployment. Add
-              GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET to your
-              environment, then redeploy.
+              Google OAuth is not yet configured on this deployment. Set
+              GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, and
+              GOOGLE_OAUTH_REDIRECT_URI in your environment, then redeploy.
+            </p>
+          ) : null}
+          {otherError ? (
+            <p className="rounded-[10px] bg-error/10 px-4 py-3 text-xs text-error">
+              {otherError}
             </p>
           ) : null}
         </CardBody>
