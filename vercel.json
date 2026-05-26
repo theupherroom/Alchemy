@@ -3,6 +3,14 @@
     {
       "path": "/api/cron/suggestions",
       "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/expire-matches",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/digest",
+      "schedule": "0 14 * * 1"
     }
   ]
 }

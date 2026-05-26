@@ -89,6 +89,10 @@ export type SelfProfileColumns = PublicProfileColumns &
     onboarded_at: string | null;
     updated_at: string;
     timezone: string;
+    notify_match_request: boolean;
+    notify_match_accepted: boolean;
+    notify_meeting_scheduled: boolean;
+    notify_weekly_digest: boolean;
   };
 
 type Json = string | number | boolean | null | { [key: string]: Json } | Json[];

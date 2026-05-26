@@ -84,6 +84,11 @@ export async function sendIntroEmails(matchId: string): Promise<{
     { to: requester, other: recipient },
     { to: recipient, other: requester },
   ]) {
+    // Respect notification preferences. The recipient still has the meeting
+    // on their calendar; we just skip the courtesy email when they've opted out.
+    if (pair.to.notify_match_accepted === false) {
+      continue;
+    }
     try {
       const rationale = await refineRationale({
         recipientAlias: pair.to.alias,

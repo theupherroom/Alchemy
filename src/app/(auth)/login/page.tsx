@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LoginForm } from "./LoginForm";
+import { MagicLinkForm } from "./MagicLinkForm";
 
 export const metadata = { title: "Sign in — alchemy" };
 
@@ -17,11 +18,20 @@ export default async function LoginPage({
           Welcome back.
         </h1>
         <p className="text-base leading-relaxed text-muted">
-          Use the email and password you signed up with.
+          Use the email and password you signed up with, or get a one-time
+          magic link.
         </p>
       </div>
 
       <LoginForm next={next ?? "/dashboard"} />
+
+      <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.18em] text-muted">
+        <span className="h-px flex-1 bg-border" />
+        <span>or</span>
+        <span className="h-px flex-1 bg-border" />
+      </div>
+
+      <MagicLinkForm />
 
       <p className="text-sm text-muted">
         New here?{" "}

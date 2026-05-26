@@ -31,15 +31,38 @@ The templates use Go-style template tags. Supabase substitutes these at send tim
 | `{{ .SiteURL }}` | The Site URL from your Supabase project settings |
 | `{{ .RedirectTo }}` | The post-confirmation redirect URL |
 
-## Sender configuration (optional)
+## Sender configuration — recommended before pilot
 
-By default Supabase sends from `noreply@mail.supabase.io`. For production
-deliverability you should configure custom SMTP:
+By default Supabase sends from `noreply@mail.supabase.io` which lands in
+spam more often than not. Route auth emails through Resend with custom SMTP:
 
-1. Go to **Authentication → Emails → SMTP Settings**.
-2. Configure your SMTP provider (Resend, Postmark, SES, etc.).
-3. Set **Sender email** to something like `connect@alchemy.upherroom.com`.
-4. Verify the domain in your SMTP provider before turning custom SMTP on.
+### Step 1 — verify a sending domain in Resend
+1. In Resend: **Domains → Add domain**, e.g. `alchemy.theupherroom.com`.
+2. Resend will give you DNS records (typically 3): one TXT for SPF, one TXT for
+   DKIM, one MX or CNAME for tracking. Add them at your DNS host
+   (Cloudflare / Vercel DNS / wherever theupherroom.com is managed).
+3. Click **Verify**. This usually takes 5–60 minutes.
+
+### Step 2 — create an SMTP credential in Resend
+1. **API Keys → Create SMTP credentials** with full-access scope.
+2. Resend gives you: host `smtp.resend.com`, port `465`, user `resend`,
+   password = the API key.
+
+### Step 3 — wire SMTP into Supabase
+1. Supabase dashboard: **Authentication → Emails → SMTP Settings**.
+2. Toggle **Enable Custom SMTP** on.
+3. Fill in:
+   - Sender email: `connect@alchemy.theupherroom.com`
+   - Sender name: `Alchemy`
+   - Host: `smtp.resend.com`
+   - Port: `465`
+   - User: `resend`
+   - Password: (the API key from step 2)
+4. Save and send yourself a test email from **Authentication → Users → invite**.
+
+### Step 4 — set `RESEND_FROM_ADDRESS` env var
+On Vercel, set `RESEND_FROM_ADDRESS=connect@alchemy.theupherroom.com` so the
+intro emails and weekly digest also send from the verified domain.
 
 ## After pasting — sanity check
 
