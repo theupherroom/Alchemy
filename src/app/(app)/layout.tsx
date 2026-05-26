@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/Badge";
+import { NotificationBell } from "@/components/nav/NotificationBell";
 
 export default async function AppLayout({
   children,
@@ -37,8 +38,9 @@ export default async function AppLayout({
             </nav>
           </div>
           <div className="flex items-center gap-3">
+            <NotificationBell />
             {profile?.alias ? (
-              <Badge variant="primary" className="alias-code">
+              <Badge variant="primary" className="alias-code hidden sm:inline-flex">
                 {profile.alias}
               </Badge>
             ) : null}

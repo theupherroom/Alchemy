@@ -3,6 +3,7 @@ import { Divider } from "@/components/ui/Divider";
 import { ScoreBubble } from "./ScoreBubble";
 import { ScoreLoader } from "./ScoreLoader";
 import { RequestButton } from "./RequestButton";
+import { FlagButton } from "./FlagButton";
 import {
   GEO_OPTIONS,
   PARTNERSHIP_TYPE_OPTIONS,
@@ -78,12 +79,18 @@ export function ProfileCard({
         ) : null}
 
         {hideRequest ? null : (
-          <div className="mt-auto pt-2">
+          <div className="mt-auto space-y-2 pt-2">
             <RequestButton
               candidateId={profile.id}
               candidateAlias={profile.alias}
               initialStatus={matchStatus ?? null}
             />
+            <div className="flex justify-end">
+              <FlagButton
+                reportedId={profile.id}
+                reportedAlias={profile.alias}
+              />
+            </div>
           </div>
         )}
       </CardBody>
