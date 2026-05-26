@@ -211,23 +211,30 @@ function MatchRowCard({
     .join(" · ");
 
   return (
-    <Card>
+    <Card className="transition-shadow duration-200 hover:shadow-[var(--shadow-warm-lg)]">
       <CardBody className="space-y-4">
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-1">
-            <p className="display text-xl text-ink md:text-2xl">{other.alias}</p>
-            <p className="text-xs text-muted">{subtitle}</p>
+        <Link
+          href={`/matches/${match.id}`}
+          className="-m-2 block rounded-2xl p-2 transition-colors duration-200 hover:bg-cream-deep/30"
+        >
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1">
+              <p className="display text-xl text-ink md:text-2xl">
+                {other.alias}
+              </p>
+              <p className="text-xs text-muted">{subtitle}</p>
+            </div>
+            {match.score !== null ? (
+              <Badge variant={match.score >= 80 ? "primary" : "neutral"}>
+                {match.score}% match
+              </Badge>
+            ) : null}
           </div>
-          {match.score !== null ? (
-            <Badge variant={match.score >= 80 ? "primary" : "neutral"}>
-              {match.score}% match
-            </Badge>
-          ) : null}
-        </div>
 
-        <p className="text-sm leading-relaxed text-ink/90">
-          {other.mission_statement}
-        </p>
+          <p className="mt-3 text-sm leading-relaxed text-ink/90">
+            {other.mission_statement}
+          </p>
+        </Link>
 
         {match.status === "accepted" && meeting ? (
           <div className="rounded-[10px] bg-primary-bg/60 px-4 py-3 text-sm text-primary-fg">

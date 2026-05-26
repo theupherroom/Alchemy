@@ -3,6 +3,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Card, CardBody } from "@/components/ui/Card";
 import { Divider } from "@/components/ui/Divider";
+import { Button } from "@/components/ui/Button";
 import {
   GEO_OPTIONS,
   ORG_TYPE_OPTIONS,
@@ -15,7 +16,11 @@ import {
 export const metadata = { title: "Your profile — alchemy" };
 export const dynamic = "force-dynamic";
 
-export default async function ProfilePage() {
+export default async function ProfilePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ saved?: string }>;
+}) {
   const supabase = await createClient();
   const {
     data: { user },
@@ -29,17 +34,30 @@ export default async function ProfilePage() {
 
   if (!profile) redirect("/onboarding");
 
+  const { saved } = await searchParams;
+
   return (
     <div className="container-app py-12 md:py-16">
-      <div className="space-y-2 pb-8">
-        <p className="eyebrow">Your profile</p>
-        <h1 className="display text-3xl text-ink md:text-5xl">
-          {profile.alias}
-        </h1>
-        <p className="alias-code text-xs text-muted">
-          The only name other members see until a confirmed meeting.
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-6 pb-8">
+        <div className="space-y-2">
+          <p className="eyebrow">Your profile</p>
+          <h1 className="display text-3xl text-ink md:text-5xl">
+            {profile.alias}
+          </h1>
+          <p className="alias-code text-xs text-muted">
+            The only name other members see until a confirmed meeting.
+          </p>
+        </div>
+        <Link href="/profile/edit">
+          <Button variant="outline">Edit profile</Button>
+        </Link>
       </div>
+
+      {saved === "1" ? (
+        <div className="mb-6 rounded-[10px] bg-success/10 px-4 py-3 text-sm text-success">
+          Profile saved. Other members will see the updated version on browse.
+        </div>
+      ) : null}
 
       <Card>
         <CardBody className="space-y-6">

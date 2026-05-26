@@ -63,22 +63,22 @@ export default async function OnboardingWelcomePage() {
             <Card className="overflow-hidden">
               <CardBody className="space-y-6">
                 <div>
-                  <p className="eyebrow">One more step</p>
+                  <p className="eyebrow">Optional — recommended</p>
                   <h2 className="display mt-3 text-3xl text-ink md:text-4xl">
                     Connect your calendar.
                   </h2>
                   <p className="mt-3 max-w-md text-sm leading-relaxed text-muted">
                     When you and a match both accept, we read your free/busy
-                    windows and book a 30-minute intro on the first time you
-                    are both free. We never see event titles or attendees.
+                    windows and book a 30-minute intro for you. Skip for now
+                    if you prefer — you can connect any time from settings.
                   </p>
                 </div>
-                <div className="flex flex-wrap gap-3">
-                  <Link href="/api/google/connect">
-                    <Button>Connect Google Calendar</Button>
-                  </Link>
+                <div className="flex flex-wrap items-center gap-3">
                   <Link href="/browse">
-                    <Button variant="ghost">Skip for now</Button>
+                    <Button>Continue to browse</Button>
+                  </Link>
+                  <Link href="/api/google/connect">
+                    <Button variant="outline">Connect Google Calendar</Button>
                   </Link>
                 </div>
               </CardBody>
@@ -87,7 +87,9 @@ export default async function OnboardingWelcomePage() {
 
           <Reveal delay={460}>
             <p className="text-xs leading-relaxed text-muted">
-              You can connect or disconnect any time from
+              Without a calendar connected, matches will pause at the
+              scheduling step until both members are connected. You can
+              update this any time in
               <Link
                 href="/settings/calendar"
                 className="ml-1 text-primary underline-offset-4 hover:underline"

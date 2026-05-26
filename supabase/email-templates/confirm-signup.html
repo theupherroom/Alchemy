@@ -1,0 +1,117 @@
+<!-- subject: Confirm your email to begin — alchemy -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="color-scheme" content="light only" />
+    <meta name="supported-color-schemes" content="light only" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Confirm your email — alchemy</title>
+  </head>
+  <body style="margin:0;padding:0;background:#fdfbf7;font-family:'DM Sans','Helvetica Neue',Arial,sans-serif;color:#2a1f1c;line-height:1.55;">
+    <span style="display:none;max-height:0;overflow:hidden;color:transparent;opacity:0;">
+      A single click confirms your email and starts your anonymous profile on alchemy.
+    </span>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#fdfbf7;">
+      <tr>
+        <td align="center" style="padding:56px 16px 24px 16px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:560px;">
+            <tr>
+              <td style="padding:0 8px 24px 8px;font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:22px;letter-spacing:-0.01em;color:#2a1f1c;">
+                alchemy
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" style="padding:0 16px 48px 16px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:560px;background:#ffffff;border-radius:20px;border:1px solid #e4d9cf;overflow:hidden;">
+            <tr>
+              <td style="padding:48px 40px 8px 40px;">
+                <p style="margin:0 0 12px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#6b5d58;">
+                  Confirm your email
+                </p>
+                <h1 style="margin:0;font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:36px;line-height:1.05;letter-spacing:-0.02em;color:#2a1f1c;">
+                  Welcome to alchemy.
+                </h1>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:16px 40px 8px 40px;">
+                <p style="margin:0;font-size:16px;color:#2a1f1c;">
+                  You're a single click away from your anonymous profile.
+                  Tap the button below to confirm <strong>{{ .Email }}</strong>
+                  and pick up onboarding where you left off.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px 40px 8px 40px;">
+                <table role="presentation" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="border-radius:9999px;background:#8052a3;">
+                      <a href="{{ .ConfirmationURL }}"
+                         style="display:inline-block;padding:14px 28px;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-weight:500;font-size:14px;color:#ffffff;text-decoration:none;border-radius:9999px;">
+                        Confirm my email
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:20px 40px 0 40px;">
+                <p style="margin:0;font-size:13px;color:#6b5d58;">
+                  Or paste this link into your browser:
+                </p>
+                <p style="margin:6px 0 0 0;font-family:'JetBrains Mono','SF Mono',Consolas,monospace;font-size:12px;word-break:break-all;color:#8052a3;">
+                  {{ .ConfirmationURL }}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:32px 40px 0 40px;">
+                <div style="height:1px;background:#f5dde3;"></div>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px 40px 8px 40px;">
+                <p style="margin:0 0 6px 0;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#a86878;">
+                  Why anonymous?
+                </p>
+                <p style="margin:0;font-size:14px;line-height:1.6;color:#2a1f1c;">
+                  alchemy is a bias-blind strategic partnership platform.
+                  You'll meet other members behind an alias like
+                  <span style="font-family:'JetBrains Mono','SF Mono',Consolas,monospace;color:#4a3468;">Partner Violet-42</span>.
+                  Your real name, organisation, and contact details stay
+                  private until the meeting itself.
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:24px 40px 48px 40px;">
+                <p style="margin:0;font-size:12px;color:#6b5d58;">
+                  Didn't sign up for alchemy? You can safely ignore this email
+                  — the account won't activate without confirmation.
+                </p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" style="padding:0 16px 56px 16px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:560px;">
+            <tr>
+              <td style="padding:0 8px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#6b5d58;">
+                alchemy &nbsp;·&nbsp; a tool of The UpHer Room Inc.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

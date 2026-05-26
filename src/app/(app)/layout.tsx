@@ -56,16 +56,17 @@ export default async function AppLayout({
         </div>
       </header>
       {!profile?.calendar_connected ? (
-        <div className="bg-warning/10 text-warning">
-          <div className="container-site flex items-center justify-between py-2 text-xs">
+        <div className="border-b border-border/40 bg-cream-deep/50 text-muted">
+          <div className="container-site flex items-center justify-between gap-3 py-2 text-xs">
             <span>
-              Calendar not connected — your matches cannot be auto-scheduled.
+              Connect Google Calendar to enable auto-scheduling for your
+              future matches.
             </span>
             <Link
               href="/settings/calendar"
-              className="font-medium underline-offset-4 hover:underline"
+              className="whitespace-nowrap font-medium text-primary underline-offset-4 hover:underline"
             >
-              Connect
+              Connect →
             </Link>
           </div>
         </div>
