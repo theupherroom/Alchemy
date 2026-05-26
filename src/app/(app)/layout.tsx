@@ -4,12 +4,15 @@ import { redirect } from "next/navigation";
 import { Badge } from "@/components/ui/Badge";
 import { NotificationBell } from "@/components/nav/NotificationBell";
 import { MobileNav } from "@/components/nav/MobileNav";
+import { AppFooter } from "@/components/nav/AppFooter";
 
 const NAV_LINKS = [
+  { href: "/dashboard", label: "Dashboard" },
   { href: "/browse", label: "Browse" },
   { href: "/matches", label: "Matches" },
   { href: "/suggestions", label: "Suggested" },
   { href: "/profile", label: "Profile" },
+  { href: "/settings", label: "Settings" },
 ];
 
 export default async function AppLayout({
@@ -34,12 +37,12 @@ export default async function AppLayout({
         <div className="container-site flex h-16 items-center justify-between gap-3">
           <div className="flex items-center gap-8">
             <Link
-              href="/browse"
+              href="/dashboard"
               className="display text-xl text-ink transition-opacity duration-200 hover:opacity-70"
             >
               alchemy
             </Link>
-            <nav className="hidden gap-6 text-sm md:flex">
+            <nav className="hidden gap-6 text-sm lg:flex">
               {NAV_LINKS.map((link) => (
                 <NavLink key={link.href} href={link.href}>
                   {link.label}
@@ -57,7 +60,11 @@ export default async function AppLayout({
                 {profile.alias}
               </Badge>
             ) : null}
-            <form action="/auth/logout" method="post" className="hidden md:block">
+            <form
+              action="/auth/logout"
+              method="post"
+              className="hidden lg:block"
+            >
               <button
                 type="submit"
                 className="text-xs text-muted hover:text-ink"
@@ -85,7 +92,10 @@ export default async function AppLayout({
           </div>
         </div>
       ) : null}
-      <main>{children}</main>
+      <main className="flex min-h-[calc(100dvh-4rem)] flex-col">
+        <div className="flex-1">{children}</div>
+        <AppFooter />
+      </main>
     </div>
   );
 }

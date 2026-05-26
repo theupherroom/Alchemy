@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { limitFlags } from "@/lib/rate-limit";
 
 // POST /api/flags
 // body: { reported: string, reason?: string }
@@ -36,6 +37,11 @@ export async function POST(request: NextRequest) {
   }
 
   const admin = createAdminClient();
+
+  const limit = await limitFlags(admin, user.id);
+  if (!limit.allowed) {
+    return NextResponse.json({ error: limit.reason }, { status: limit.status });
+  }
 
   // Prevent duplicate flags from the same reporter against the same person.
   const { data: existing } = await admin

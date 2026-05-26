@@ -20,7 +20,19 @@ type SearchParams = {
   partnership_type?: ProfilePartnershipType;
   stage?: ProfileStage;
   geo?: ProfileGeoReach;
+  q?: string;
 };
+
+function sanitizeQuery(q: string | undefined): string | null {
+  if (!q) return null;
+  // Allow letters, digits, spaces, hyphen, apostrophe. Cap at 80 chars.
+  const cleaned = q
+    .normalize("NFKC")
+    .replace(/[^\p{L}\p{N}\s'-]/gu, "")
+    .trim()
+    .slice(0, 80);
+  return cleaned.length >= 2 ? cleaned : null;
+}
 
 export default async function BrowsePage({
   searchParams,
@@ -48,6 +60,13 @@ export default async function BrowsePage({
   if (params.geo) query = query.eq("geographic_reach", params.geo);
   if (params.partnership_type) {
     query = query.contains("partnership_types", [params.partnership_type]);
+  }
+  const q = sanitizeQuery(params.q);
+  if (q) {
+    const pattern = `*${q}*`;
+    query = query.or(
+      `mission_statement.ilike.${pattern},what_we_offer.ilike.${pattern},what_we_need.ilike.${pattern},region.ilike.${pattern}`,
+    );
   }
 
   const { data: profiles, error } = await query;

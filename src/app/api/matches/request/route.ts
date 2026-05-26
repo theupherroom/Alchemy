@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreProfiles } from "@/lib/anthropic/score";
+import { limitMatchRequests } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   const body = (await request.json().catch(() => null)) as {
@@ -26,6 +27,11 @@ export async function POST(request: NextRequest) {
   }
 
   const admin = createAdminClient();
+
+  const limit = await limitMatchRequests(admin, user.id);
+  if (!limit.allowed) {
+    return NextResponse.json({ error: limit.reason }, { status: limit.status });
+  }
 
   // Check for an existing match in either direction.
   const { data: existing } = await admin

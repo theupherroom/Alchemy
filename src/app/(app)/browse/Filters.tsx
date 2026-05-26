@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { cn } from "@/lib/cn";
 import {
   GEO_OPTIONS,
@@ -23,10 +23,34 @@ const GROUPS: Group[] = [
   { key: "geo", label: "Reach", options: GEO_OPTIONS },
 ];
 
+const SEARCH_DEBOUNCE_MS = 300;
+
 export function Filters() {
   const router = useRouter();
   const params = useSearchParams();
   const [pending, startTransition] = useTransition();
+  const [q, setQ] = useState(params.get("q") ?? "");
+
+  // Debounce search input -> URL
+  useEffect(() => {
+    const initial = params.get("q") ?? "";
+    if (q === initial) return;
+    const id = setTimeout(() => {
+      const next = new URLSearchParams(params);
+      if (q.trim()) {
+        next.set("q", q.trim());
+      } else {
+        next.delete("q");
+      }
+      startTransition(() => {
+        router.replace(next.toString() ? `?${next.toString()}` : "?", {
+          scroll: false,
+        });
+      });
+    }, SEARCH_DEBOUNCE_MS);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q]);
 
   function toggle(key: Group["key"], value: string) {
     startTransition(() => {
@@ -44,15 +68,42 @@ export function Filters() {
   }
 
   function clearAll() {
+    setQ("");
     startTransition(() => {
       router.replace("?", { scroll: false });
     });
   }
 
-  const anyActive = GROUPS.some((g) => params.get(g.key));
+  const anyActive = GROUPS.some((g) => params.get(g.key)) || q.trim().length > 0;
 
   return (
-    <div className={cn("space-y-4", pending && "opacity-70")}>
+    <div className={cn("space-y-5", pending && "opacity-70")}>
+      <div className="space-y-2">
+        <p className="eyebrow">Search</p>
+        <div className="relative">
+          <svg
+            aria-hidden="true"
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+          <input
+            type="search"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="Mission, offers, region…"
+            className="h-10 w-full rounded-full border border-border bg-white pl-9 pr-3 text-sm text-ink placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+        </div>
+      </div>
+
       {GROUPS.map((group) => (
         <div key={group.key} className="space-y-2">
           <p className="eyebrow">{group.label}</p>
@@ -85,7 +136,7 @@ export function Filters() {
           onClick={clearAll}
           className="text-xs text-primary underline-offset-4 hover:underline"
         >
-          Clear all filters
+          Clear all
         </button>
       ) : null}
     </div>
