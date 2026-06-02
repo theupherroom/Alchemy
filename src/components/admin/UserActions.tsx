@@ -9,13 +9,17 @@ type Action =
   | "reset_flags"
   | "delete"
   | "grant_admin"
-  | "revoke_admin";
+  | "revoke_admin"
+  | "approve"
+  | "reject"
+  | "reset_approval";
 
 type UserActionsProps = {
   userId: string;
   alias: string;
   status: "active" | "suspended" | "deleted";
   isAdmin: boolean;
+  approvalStatus: "pending" | "approved" | "rejected";
 };
 
 export function UserActions({
@@ -23,6 +27,7 @@ export function UserActions({
   alias,
   status,
   isAdmin,
+  approvalStatus,
 }: UserActionsProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -52,7 +57,58 @@ export function UserActions({
 
   return (
     <div className="space-y-3">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
+        {approvalStatus === "pending" ? (
+          <>
+            <button
+              type="button"
+              onClick={() => run("approve")}
+              disabled={pending}
+              className="rounded-full bg-success px-4 py-2 text-xs font-medium text-white transition active:scale-[0.98] disabled:opacity-50"
+            >
+              Approve
+            </button>
+            <button
+              type="button"
+              onClick={() => run("reject")}
+              disabled={pending}
+              className="rounded-full border border-error/40 bg-white px-4 py-2 text-xs font-medium text-error transition hover:bg-error/10 disabled:opacity-50"
+            >
+              Reject
+            </button>
+          </>
+        ) : approvalStatus === "rejected" ? (
+          <>
+            <button
+              type="button"
+              onClick={() => run("approve")}
+              disabled={pending}
+              className="rounded-full bg-success px-4 py-2 text-xs font-medium text-white transition active:scale-[0.98] disabled:opacity-50"
+            >
+              Approve anyway
+            </button>
+            <button
+              type="button"
+              onClick={() => run("reset_approval")}
+              disabled={pending}
+              className="rounded-full border border-border bg-white px-4 py-2 text-xs font-medium text-ink transition hover:border-primary/40 disabled:opacity-50"
+            >
+              Reset to pending
+            </button>
+          </>
+        ) : (
+          <button
+            type="button"
+            onClick={() => run("reset_approval")}
+            disabled={pending}
+            className="rounded-full border border-warning/40 bg-warning/5 px-4 py-2 text-xs font-medium text-warning transition hover:bg-warning/10 disabled:opacity-50"
+          >
+            Un-approve
+          </button>
+        )}
+
+        <span className="h-5 w-px bg-border" aria-hidden="true" />
+
         {status !== "suspended" ? (
           <button
             type="button"

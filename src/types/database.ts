@@ -41,6 +41,8 @@ export type ProfileStatus = "active" | "suspended" | "deleted";
 
 export type MatchStatus = "pending" | "accepted" | "declined" | "expired";
 
+export type ApprovalStatus = "pending" | "approved" | "rejected";
+
 export type NotificationKind =
   | "match_request"
   | "match_accepted"
@@ -94,6 +96,9 @@ export type SelfProfileColumns = PublicProfileColumns &
     notify_meeting_scheduled: boolean;
     notify_weekly_digest: boolean;
     is_admin: boolean;
+    approval_status: ApprovalStatus;
+    approved_at: string | null;
+    approved_by: string | null;
   };
 
 type Json = string | number | boolean | null | { [key: string]: Json } | Json[];

@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getAdminUser } from "@/lib/auth/admin";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sendApprovalEmail } from "@/lib/email/approved";
 
 type Action =
   | "ban"
@@ -8,7 +9,10 @@ type Action =
   | "reset_flags"
   | "delete"
   | "grant_admin"
-  | "revoke_admin";
+  | "revoke_admin"
+  | "approve"
+  | "reject"
+  | "reset_approval";
 
 type Body = {
   action?: Action;
@@ -21,6 +25,9 @@ const ALLOWED: Action[] = [
   "delete",
   "grant_admin",
   "revoke_admin",
+  "approve",
+  "reject",
+  "reset_approval",
 ];
 
 export async function POST(
@@ -88,6 +95,58 @@ export async function POST(
     if (error)
       return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ is_admin: isAdmin });
+  }
+
+  if (action === "approve") {
+    const { error } = await client
+      .from("profiles")
+      .update({
+        approval_status: "approved",
+        approved_at: new Date().toISOString(),
+        approved_by: admin.id,
+      })
+      .eq("id", id);
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
+
+    // Fire-and-forget the approval email. Don't fail the action if email fails.
+    const emailResult = await sendApprovalEmail(id).catch((err) => ({
+      sent: false,
+      error: err instanceof Error ? err.message : "unknown",
+    }));
+
+    return NextResponse.json({
+      approval_status: "approved",
+      email: emailResult,
+    });
+  }
+
+  if (action === "reject") {
+    const { error } = await client
+      .from("profiles")
+      .update({
+        approval_status: "rejected",
+        approved_at: null,
+        approved_by: admin.id,
+      })
+      .eq("id", id);
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ approval_status: "rejected" });
+  }
+
+  if (action === "reset_approval") {
+    const { error } = await client
+      .from("profiles")
+      .update({
+        approval_status: "pending",
+        approved_at: null,
+        approved_by: null,
+      })
+      .eq("id", id);
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ approval_status: "pending" });
   }
 
   // delete

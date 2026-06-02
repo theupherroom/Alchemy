@@ -31,7 +31,7 @@ export default async function AppLayout({
 
   const { data: profile } = await supabase
     .from("profiles_self")
-    .select("alias,calendar_connected,is_admin")
+    .select("alias,calendar_connected,is_admin,approval_status")
     .maybeSingle();
 
   const navLinks =
@@ -88,7 +88,29 @@ export default async function AppLayout({
           </div>
         </div>
       </header>
-      {!profile?.calendar_connected ? (
+      {profile?.approval_status === "pending" ? (
+        <div className="border-b border-warning/30 bg-warning/5 text-warning">
+          <div className="container-site flex flex-wrap items-center justify-between gap-3 py-2 text-xs">
+            <span>
+              Your profile is being reviewed. Once approved you&apos;ll appear
+              in browse and be able to request matches. You&apos;ll get an
+              email the moment it&apos;s live.
+            </span>
+            <span className="alias-code uppercase tracking-[0.2em]">
+              Awaiting approval
+            </span>
+          </div>
+        </div>
+      ) : profile?.approval_status === "rejected" ? (
+        <div className="border-b border-error/30 bg-error/5 text-error">
+          <div className="container-site flex flex-wrap items-center justify-between gap-3 py-2 text-xs">
+            <span>
+              Your application was not approved at this time. Write to
+              hello@theupherroom.com if you believe this was in error.
+            </span>
+          </div>
+        </div>
+      ) : !profile?.calendar_connected ? (
         <div className="border-b border-border/40 bg-cream-deep/50 text-muted">
           <div className="container-site flex items-center justify-between gap-3 py-2 text-xs">
             <span>

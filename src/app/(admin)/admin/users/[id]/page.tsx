@@ -82,6 +82,13 @@ export default async function AdminUserDetailPage({
           {profile.is_admin ? (
             <Badge variant="primary">Admin</Badge>
           ) : null}
+          {profile.approval_status === "pending" ? (
+            <Badge variant="warning">Awaiting approval</Badge>
+          ) : profile.approval_status === "rejected" ? (
+            <Badge variant="error">Rejected</Badge>
+          ) : (
+            <Badge variant="success">Approved</Badge>
+          )}
         </div>
         <p className="alias-code text-sm text-muted">
           {profile.full_name} · {profile.personal_email}
@@ -167,6 +174,7 @@ export default async function AdminUserDetailPage({
             alias={formatAlias(profile.alias)}
             status={profile.status}
             isAdmin={profile.is_admin ?? false}
+            approvalStatus={profile.approval_status ?? "pending"}
           />
           <p className="text-xs leading-relaxed text-muted">
             <strong className="text-ink">Suspend</strong> hides the user from

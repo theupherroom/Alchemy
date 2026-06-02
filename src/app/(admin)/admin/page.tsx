@@ -22,6 +22,7 @@ export default async function AdminOverviewPage() {
     flagsWeek,
     meetingsWeek,
     aiCallsDay,
+    pendingApproval,
   ] = await Promise.all([
     admin.from("profiles").select("id", { count: "exact", head: true }),
     admin
@@ -60,9 +61,22 @@ export default async function AdminOverviewPage() {
       .from("ai_call_log")
       .select("id", { count: "exact", head: true })
       .gt("created_at", day),
+    admin
+      .from("profiles")
+      .select("id", { count: "exact", head: true })
+      .eq("approval_status", "pending"),
   ]);
 
   const stats = [
+    {
+      label: "Pending approval",
+      value: pendingApproval.count ?? 0,
+      href: "/admin/users?status=pending_approval",
+      tone:
+        (pendingApproval.count ?? 0) > 0
+          ? ("warning" as const)
+          : undefined,
+    },
     { label: "Total members", value: totalUsers.count ?? 0, href: "/admin/users" },
     {
       label: "Active",
@@ -141,16 +155,16 @@ export default async function AdminOverviewPage() {
 
       <div className="mt-12 grid gap-4 md:grid-cols-2">
         <ShortcutCard
-          href="/admin/signups"
-          eyebrow="Most common task"
-          title="Add new signups to Google OAuth"
-          description="Until your OAuth client clears Google review, each new tester needs to be added to the Test Users list. Open Signups, hit copy on each email, paste into Google Cloud Console."
+          href="/admin/users?status=pending_approval"
+          eyebrow="Gating beta access"
+          title="Review pending profiles"
+          description="New signups land in pending. Approve them to make them visible in browse and let them request matches. An approval email fires automatically."
         />
         <ShortcutCard
-          href="/admin/ops"
-          eyebrow="On-demand"
-          title="Trigger crons manually"
-          description="Refresh suggestions, send weekly digest, or expire stale matches outside the daily schedule."
+          href="/admin/signups"
+          eyebrow="Google OAuth gate"
+          title="Add testers to Google test users"
+          description="Until your OAuth client clears Google review, each new tester needs to be added to the Test Users list. Hit copy on each email, paste into Google Cloud Console."
         />
       </div>
     </div>

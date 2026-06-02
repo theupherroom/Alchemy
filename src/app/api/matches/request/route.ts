@@ -28,6 +28,24 @@ export async function POST(request: NextRequest) {
 
   const admin = createAdminClient();
 
+  // Approval gate — pending and rejected users cannot send requests.
+  const { data: myProfile } = await admin
+    .from("profiles")
+    .select("approval_status")
+    .eq("id", user.id)
+    .maybeSingle();
+  if (!myProfile || myProfile.approval_status !== "approved") {
+    return NextResponse.json(
+      {
+        error:
+          myProfile?.approval_status === "rejected"
+            ? "Your profile is not approved."
+            : "Your profile is still being reviewed. You can request matches once you're approved.",
+      },
+      { status: 403 },
+    );
+  }
+
   const limit = await limitMatchRequests(admin, user.id);
   if (!limit.allowed) {
     return NextResponse.json({ error: limit.reason }, { status: limit.status });

@@ -9,7 +9,13 @@ import type { ProfileStatus } from "@/types/database";
 export const metadata = { title: "Users — admin" };
 export const dynamic = "force-dynamic";
 
-type Filter = ProfileStatus | "all" | "flagged" | "no_calendar";
+type Filter =
+  | ProfileStatus
+  | "all"
+  | "flagged"
+  | "no_calendar"
+  | "pending_approval"
+  | "rejected";
 
 export default async function AdminUsersPage({
   searchParams,
@@ -22,7 +28,7 @@ export default async function AdminUsersPage({
   let query = admin
     .from("profiles")
     .select(
-      "id, alias, full_name, org_name, personal_email, sector, status, flag_count, calendar_connected, created_at, onboarded_at, is_admin",
+      "id, alias, full_name, org_name, personal_email, sector, status, flag_count, calendar_connected, created_at, onboarded_at, is_admin, approval_status",
     )
     .order("created_at", { ascending: false })
     .limit(200);
@@ -33,6 +39,10 @@ export default async function AdminUsersPage({
     query = query.gt("flag_count", 0);
   } else if (status === "no_calendar") {
     query = query.eq("calendar_connected", false);
+  } else if (status === "pending_approval") {
+    query = query.eq("approval_status", "pending");
+  } else if (status === "rejected") {
+    query = query.eq("approval_status", "rejected");
   }
 
   if (q.trim().length >= 2) {
@@ -73,8 +83,10 @@ export default async function AdminUsersPage({
 
       <div className="flex flex-wrap items-center gap-2 pb-6">
         <FilterChip value="all" current={status}>All</FilterChip>
+        <FilterChip value="pending_approval" current={status}>Pending approval</FilterChip>
         <FilterChip value="active" current={status}>Active</FilterChip>
         <FilterChip value="suspended" current={status}>Suspended</FilterChip>
+        <FilterChip value="rejected" current={status}>Rejected</FilterChip>
         <FilterChip value="flagged" current={status}>Flagged</FilterChip>
         <FilterChip value="no_calendar" current={status}>No calendar</FilterChip>
       </div>
@@ -120,6 +132,11 @@ export default async function AdminUsersPage({
                       <Badge variant="primary">Calendar</Badge>
                     ) : null}
                     {u.is_admin ? <Badge variant="primary">Admin</Badge> : null}
+                    {u.approval_status === "pending" ? (
+                      <Badge variant="warning">Pending approval</Badge>
+                    ) : u.approval_status === "rejected" ? (
+                      <Badge variant="error">Rejected</Badge>
+                    ) : null}
                   </div>
                   <p className="text-xs text-muted">
                     {u.full_name || "—"} · {u.org_name || "—"} · {u.sector}
