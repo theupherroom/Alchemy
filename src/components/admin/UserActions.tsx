@@ -3,15 +3,27 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
-type Action = "ban" | "unban" | "reset_flags" | "delete";
+type Action =
+  | "ban"
+  | "unban"
+  | "reset_flags"
+  | "delete"
+  | "grant_admin"
+  | "revoke_admin";
 
 type UserActionsProps = {
   userId: string;
   alias: string;
   status: "active" | "suspended" | "deleted";
+  isAdmin: boolean;
 };
 
-export function UserActions({ userId, alias, status }: UserActionsProps) {
+export function UserActions({
+  userId,
+  alias,
+  status,
+  isAdmin,
+}: UserActionsProps) {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -69,6 +81,26 @@ export function UserActions({ userId, alias, status }: UserActionsProps) {
         >
           Reset flag count
         </button>
+
+        {isAdmin ? (
+          <button
+            type="button"
+            onClick={() => run("revoke_admin")}
+            disabled={pending}
+            className="rounded-full border border-warning/40 bg-warning/10 px-4 py-2 text-xs font-medium text-warning transition hover:bg-warning/15 disabled:opacity-50"
+          >
+            Revoke admin
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => run("grant_admin")}
+            disabled={pending}
+            className="rounded-full bg-primary px-4 py-2 text-xs font-medium text-white transition hover:bg-primary-hover active:scale-[0.98] disabled:opacity-50"
+          >
+            Make admin
+          </button>
+        )}
 
         {!confirmDelete ? (
           <button

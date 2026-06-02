@@ -93,6 +93,7 @@ export type SelfProfileColumns = PublicProfileColumns &
     notify_match_accepted: boolean;
     notify_meeting_scheduled: boolean;
     notify_weekly_digest: boolean;
+    is_admin: boolean;
   };
 
 type Json = string | number | boolean | null | { [key: string]: Json } | Json[];

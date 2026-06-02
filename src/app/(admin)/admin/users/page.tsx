@@ -22,7 +22,7 @@ export default async function AdminUsersPage({
   let query = admin
     .from("profiles")
     .select(
-      "id, alias, full_name, org_name, personal_email, sector, status, flag_count, calendar_connected, created_at, onboarded_at",
+      "id, alias, full_name, org_name, personal_email, sector, status, flag_count, calendar_connected, created_at, onboarded_at, is_admin",
     )
     .order("created_at", { ascending: false })
     .limit(200);
@@ -119,6 +119,7 @@ export default async function AdminUsersPage({
                     {u.calendar_connected ? (
                       <Badge variant="primary">Calendar</Badge>
                     ) : null}
+                    {u.is_admin ? <Badge variant="primary">Admin</Badge> : null}
                   </div>
                   <p className="text-xs text-muted">
                     {u.full_name || "—"} · {u.org_name || "—"} · {u.sector}

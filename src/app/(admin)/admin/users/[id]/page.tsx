@@ -79,7 +79,13 @@ export default async function AdminUserDetailPage({
           {profile.flag_count > 0 ? (
             <Badge variant="warning">{profile.flag_count} flags</Badge>
           ) : null}
+          {profile.is_admin ? (
+            <Badge variant="primary">Admin</Badge>
+          ) : null}
         </div>
+        <p className="alias-code text-sm text-muted">
+          {profile.full_name} · {profile.personal_email}
+        </p>
       </div>
 
       <Card>
@@ -160,15 +166,18 @@ export default async function AdminUserDetailPage({
             userId={profile.id}
             alias={formatAlias(profile.alias)}
             status={profile.status}
+            isAdmin={profile.is_admin ?? false}
           />
           <p className="text-xs leading-relaxed text-muted">
             <strong className="text-ink">Suspend</strong> hides the user from
             browse and blocks sign-in. <strong className="text-ink">Reinstate</strong>
             {" "}reverses it. <strong className="text-ink">Reset flag count</strong>
             {" "}sets flag_count to 0 (use after a false-flag review).
-            {" "}<strong className="text-ink">Delete</strong> hard-removes the
-            user, all their matches, meetings, suggestions, and OAuth tokens.
-            Cannot be undone.
+            {" "}<strong className="text-ink">Make admin</strong> gives this
+            user full /admin access — they can suspend, ban, delete, and grant
+            admin to others. <strong className="text-ink">Delete</strong>
+            {" "}hard-removes the user, all their matches, meetings,
+            suggestions, and OAuth tokens. Cannot be undone.
           </p>
         </CardBody>
       </Card>

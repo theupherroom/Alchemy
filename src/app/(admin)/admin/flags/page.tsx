@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Card, CardBody } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { formatAlias } from "@/lib/alias/display";
+import { contactLine } from "@/lib/profile/contact";
 
 export const metadata = { title: "Flags — admin" };
 export const dynamic = "force-dynamic";
@@ -31,9 +32,18 @@ export default async function AdminFlagsPage() {
   const { data: profileRows } = ids.length
     ? await admin
         .from("profiles")
-        .select("id, alias, status, flag_count")
+        .select("id, alias, full_name, personal_email, status, flag_count")
         .in("id", ids)
-    : { data: [] as { id: string; alias: string; status: string; flag_count: number }[] };
+    : {
+        data: [] as {
+          id: string;
+          alias: string;
+          full_name: string;
+          personal_email: string;
+          status: string;
+          flag_count: number;
+        }[],
+      };
 
   const byId = new Map(
     (profileRows ?? []).map((p) => [p.id, p]),
@@ -65,31 +75,55 @@ export default async function AdminFlagsPage() {
             const reported = byId.get(f.reported_id);
             return (
               <Card key={f.id}>
-                <CardBody className="space-y-2">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="text-sm">
-                      <Link
-                        href={`/admin/users/${f.reporter_id}`}
-                        className="text-muted hover:text-ink"
-                      >
-                        {reporter ? formatAlias(reporter.alias) : f.reporter_id.slice(0, 8)}
-                      </Link>
-                      <span className="mx-2 text-muted">flagged</span>
-                      <Link
-                        href={`/admin/users/${f.reported_id}`}
-                        className="display text-base text-ink hover:underline"
-                      >
-                        {reported ? formatAlias(reported.alias) : f.reported_id.slice(0, 8)}
-                      </Link>
-                      {reported && reported.status === "suspended" ? (
-                        <Badge variant="error" className="ml-2">
-                          Suspended
-                        </Badge>
-                      ) : reported && reported.flag_count >= 2 ? (
-                        <Badge variant="warning" className="ml-2">
-                          {reported.flag_count} flags
-                        </Badge>
-                      ) : null}
+                <CardBody className="space-y-3">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="space-y-1 text-sm">
+                      <div>
+                        <Link
+                          href={`/admin/users/${f.reporter_id}`}
+                          className="text-muted hover:text-ink"
+                        >
+                          {reporter
+                            ? formatAlias(reporter.alias)
+                            : f.reporter_id.slice(0, 8)}
+                        </Link>
+                        <span className="mx-2 text-muted">flagged</span>
+                        <Link
+                          href={`/admin/users/${f.reported_id}`}
+                          className="display text-base text-ink hover:underline"
+                        >
+                          {reported
+                            ? formatAlias(reported.alias)
+                            : f.reported_id.slice(0, 8)}
+                        </Link>
+                        {reported && reported.status === "suspended" ? (
+                          <Badge variant="error" className="ml-2">
+                            Suspended
+                          </Badge>
+                        ) : reported && reported.flag_count >= 2 ? (
+                          <Badge variant="warning" className="ml-2">
+                            {reported.flag_count} flags
+                          </Badge>
+                        ) : null}
+                      </div>
+                      <p className="alias-code text-[11px] text-muted">
+                        Reporter:{" "}
+                        {reporter
+                          ? contactLine(
+                              reporter.full_name,
+                              reporter.personal_email,
+                            )
+                          : "—"}
+                      </p>
+                      <p className="alias-code text-[11px] text-muted">
+                        Reported:{" "}
+                        {reported
+                          ? contactLine(
+                              reported.full_name,
+                              reported.personal_email,
+                            )
+                          : "—"}
+                      </p>
                     </div>
                     <p className="text-xs text-muted">
                       {new Date(f.created_at).toLocaleString(undefined, {

@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { Card, CardBody } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { formatAlias } from "@/lib/alias/display";
+import { contactLine } from "@/lib/profile/contact";
 
 export const metadata = { title: "Meetings — admin" };
 export const dynamic = "force-dynamic";
@@ -35,9 +36,21 @@ export default async function AdminMeetingsPage() {
     ),
   );
   const { data: profileRows } = userIds.length
-    ? await admin.from("profiles").select("id, alias").in("id", userIds)
-    : { data: [] as { id: string; alias: string }[] };
-  const aliasById = new Map((profileRows ?? []).map((p) => [p.id, p.alias]));
+    ? await admin
+        .from("profiles")
+        .select("id, alias, full_name, personal_email")
+        .in("id", userIds)
+    : {
+        data: [] as {
+          id: string;
+          alias: string;
+          full_name: string;
+          personal_email: string;
+        }[],
+      };
+  const profileById = new Map(
+    (profileRows ?? []).map((p) => [p.id, p]),
+  );
 
   const now = Date.now();
 
@@ -69,20 +82,33 @@ export default async function AdminMeetingsPage() {
             const match = matchById.get(m.match_id);
             const ts = new Date(m.starts_at).getTime();
             const upcoming = ts > now;
-            const aliasA = match
-              ? aliasById.get(match.requester_id) ?? "?"
-              : "?";
-            const aliasB = match
-              ? aliasById.get(match.recipient_id) ?? "?"
-              : "?";
+            const partyA = match
+              ? profileById.get(match.requester_id)
+              : undefined;
+            const partyB = match
+              ? profileById.get(match.recipient_id)
+              : undefined;
+            const aliasA = partyA?.alias ?? "?";
+            const aliasB = partyB?.alias ?? "?";
             return (
               <Card key={m.id}>
                 <CardBody className="flex flex-wrap items-start justify-between gap-4 py-4">
                   <div className="min-w-0 space-y-1">
                     <p className="display text-lg text-ink">
-                      {formatAlias(aliasA)} <span className="text-muted">×</span>{" "}
+                      {formatAlias(aliasA)}{" "}
+                      <span className="text-muted">×</span>{" "}
                       {formatAlias(aliasB)}
                     </p>
+                    {partyA ? (
+                      <p className="alias-code text-[11px] text-muted">
+                        A: {contactLine(partyA.full_name, partyA.personal_email)}
+                      </p>
+                    ) : null}
+                    {partyB ? (
+                      <p className="alias-code text-[11px] text-muted">
+                        B: {contactLine(partyB.full_name, partyB.personal_email)}
+                      </p>
+                    ) : null}
                     <p className="text-xs text-muted">
                       {new Date(m.starts_at).toLocaleString(undefined, {
                         weekday: "short",

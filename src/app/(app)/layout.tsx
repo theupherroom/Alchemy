@@ -31,12 +31,13 @@ export default async function AppLayout({
 
   const { data: profile } = await supabase
     .from("profiles_self")
-    .select("alias,calendar_connected")
+    .select("alias,calendar_connected,is_admin")
     .maybeSingle();
 
-  const navLinks = isAdminEmail(user.email)
-    ? [...BASE_NAV_LINKS, ADMIN_LINK]
-    : BASE_NAV_LINKS;
+  const navLinks =
+    isAdminEmail(user.email) || profile?.is_admin
+      ? [...BASE_NAV_LINKS, ADMIN_LINK]
+      : BASE_NAV_LINKS;
 
   return (
     <div className="min-h-[100dvh] bg-cream">

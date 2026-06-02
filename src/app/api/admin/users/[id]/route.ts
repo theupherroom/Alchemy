@@ -2,9 +2,26 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getAdminUser } from "@/lib/auth/admin";
 import { createAdminClient } from "@/lib/supabase/admin";
 
+type Action =
+  | "ban"
+  | "unban"
+  | "reset_flags"
+  | "delete"
+  | "grant_admin"
+  | "revoke_admin";
+
 type Body = {
-  action?: "ban" | "unban" | "reset_flags" | "delete";
+  action?: Action;
 };
+
+const ALLOWED: Action[] = [
+  "ban",
+  "unban",
+  "reset_flags",
+  "delete",
+  "grant_admin",
+  "revoke_admin",
+];
 
 export async function POST(
   request: NextRequest,
@@ -19,7 +36,7 @@ export async function POST(
   const body = (await request.json().catch(() => null)) as Body | null;
   const action = body?.action;
 
-  if (!["ban", "unban", "reset_flags", "delete"].includes(action ?? "")) {
+  if (!action || !ALLOWED.includes(action)) {
     return NextResponse.json({ error: "invalid action" }, { status: 400 });
   }
 
@@ -60,6 +77,17 @@ export async function POST(
     if (error)
       return NextResponse.json({ error: error.message }, { status: 500 });
     return NextResponse.json({ flag_count: 0 });
+  }
+
+  if (action === "grant_admin" || action === "revoke_admin") {
+    const isAdmin = action === "grant_admin";
+    const { error } = await client
+      .from("profiles")
+      .update({ is_admin: isAdmin })
+      .eq("id", id);
+    if (error)
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ is_admin: isAdmin });
   }
 
   // delete
