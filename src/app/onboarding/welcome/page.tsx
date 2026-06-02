@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardBody } from "@/components/ui/Card";
 import { Reveal } from "@/components/landing/Reveal";
 import { Grain } from "@/components/landing/Grain";
+import { formatAlias } from "@/lib/alias/display";
 
 export const metadata = { title: "You are Partner … — alchemy" };
 
@@ -47,7 +48,7 @@ export default async function OnboardingWelcomePage() {
                 className="display text-6xl leading-[1.02] text-ink md:text-[6.5rem]"
                 style={{ animation: "alias-pulse 1.2s ease-out 0.4s 1 both" }}
               >
-                {profile.alias}
+                {formatAlias(profile.alias)}
               </h1>
             </Reveal>
 

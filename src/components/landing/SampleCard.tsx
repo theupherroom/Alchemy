@@ -1,5 +1,6 @@
 import { AnimatedScore } from "./AnimatedScore";
 import { cn } from "@/lib/cn";
+import { formatAlias } from "@/lib/alias/display";
 
 type SampleCardProps = {
   alias: string;
@@ -57,7 +58,7 @@ export function SampleCard({
                 {tag}
               </p>
               <p className="display text-2xl text-ink md:text-[1.7rem]">
-                {alias}
+                {formatAlias(alias)}
               </p>
               <p className="text-xs text-muted">{subtitle}</p>
             </div>

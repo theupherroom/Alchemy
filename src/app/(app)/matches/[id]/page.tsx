@@ -17,6 +17,7 @@ import {
   STAGE_OPTIONS,
   labelOf,
 } from "@/lib/profile/enums";
+import { formatAlias } from "@/lib/alias/display";
 import { computeCompatibility } from "@/lib/matching/compatibility";
 import type { PublicProfileColumns } from "@/types/database";
 
@@ -127,7 +128,7 @@ export default async function MatchDetailPage({
                           )}
                   </p>
                   <h1 className="display text-3xl text-ink md:text-5xl">
-                    {other.alias}
+                    {formatAlias(other.alias)}
                   </h1>
                   <p className="text-xs text-muted">
                     {[

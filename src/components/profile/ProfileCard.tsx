@@ -10,6 +10,7 @@ import {
   SECTOR_OPTIONS,
   labelOf,
 } from "@/lib/profile/enums";
+import { formatAlias } from "@/lib/alias/display";
 import type { PublicProfileColumns } from "@/types/database";
 
 type ProfileCardProps = {
@@ -41,7 +42,7 @@ export function ProfileCard({
         <div className="flex items-start justify-between gap-4">
           <div className="space-y-1">
             <p className="display text-2xl text-ink md:text-[1.625rem]">
-              {profile.alias}
+              {formatAlias(profile.alias)}
             </p>
             <p className="text-xs text-muted">{subtitleParts.join(" · ")}</p>
           </div>

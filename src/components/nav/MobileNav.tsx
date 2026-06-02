@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/cn";
+import { formatAlias } from "@/lib/alias/display";
 
 type MobileNavProps = {
   alias?: string | null;
@@ -114,7 +115,7 @@ export function MobileNav({ alias, links }: MobileNavProps) {
                     You are
                   </p>
                   <p className="alias-code mt-1 text-lg text-primary-fg">
-                    {alias}
+                    {formatAlias(alias)}
                   </p>
                 </div>
               ) : null}

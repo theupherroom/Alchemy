@@ -6,6 +6,7 @@ import { Card, CardBody } from "@/components/ui/Card";
 import { Divider } from "@/components/ui/Divider";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import type { PublicProfileColumns } from "@/types/database";
+import { formatAlias } from "@/lib/alias/display";
 
 export const metadata = { title: "Dashboard — alchemy" };
 export const dynamic = "force-dynamic";
@@ -87,7 +88,7 @@ export default async function DashboardPage() {
       <section className="space-y-3 pb-10">
         <p className="eyebrow">Dashboard</p>
         <h1 className="display text-3xl text-ink md:text-5xl">
-          Hi, <span className="text-primary">{profile.alias}</span>.
+          Hi, <span className="text-primary">{formatAlias(profile.alias)}</span>.
         </h1>
         <p className="max-w-md text-sm leading-relaxed text-muted">
           A quick view of where your introductions stand. Everything else lives

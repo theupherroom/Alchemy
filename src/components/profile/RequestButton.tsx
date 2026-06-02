@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
+import { formatAlias } from "@/lib/alias/display";
 
 type RequestButtonProps = {
   candidateId: string;
@@ -77,7 +78,7 @@ export function RequestButton({
           >
             <p className="eyebrow">A request to connect</p>
             <h2 className="display mt-2 text-2xl text-ink md:text-3xl">
-              Send a request to {candidateAlias}?
+              Send a request to {formatAlias(candidateAlias)}?
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
               They'll see your anonymous profile and decide. If they accept,

@@ -5,8 +5,10 @@ import { Badge } from "@/components/ui/Badge";
 import { NotificationBell } from "@/components/nav/NotificationBell";
 import { MobileNav } from "@/components/nav/MobileNav";
 import { AppFooter } from "@/components/nav/AppFooter";
+import { formatAlias } from "@/lib/alias/display";
+import { isAdminEmail } from "@/lib/auth/admin";
 
-const NAV_LINKS = [
+const BASE_NAV_LINKS = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/browse", label: "Browse" },
   { href: "/matches", label: "Matches" },
@@ -14,6 +16,7 @@ const NAV_LINKS = [
   { href: "/profile", label: "Profile" },
   { href: "/settings", label: "Settings" },
 ];
+const ADMIN_LINK = { href: "/admin", label: "Admin" };
 
 export default async function AppLayout({
   children,
@@ -31,6 +34,10 @@ export default async function AppLayout({
     .select("alias,calendar_connected")
     .maybeSingle();
 
+  const navLinks = isAdminEmail(user.email)
+    ? [...BASE_NAV_LINKS, ADMIN_LINK]
+    : BASE_NAV_LINKS;
+
   return (
     <div className="min-h-[100dvh] bg-cream">
       <header className="sticky top-0 z-40 border-b border-border/60 bg-cream/80 backdrop-blur-md">
@@ -43,8 +50,12 @@ export default async function AppLayout({
               alchemy
             </Link>
             <nav className="hidden gap-6 text-sm lg:flex">
-              {NAV_LINKS.map((link) => (
-                <NavLink key={link.href} href={link.href}>
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.href}
+                  href={link.href}
+                  highlight={link.href === "/admin"}
+                >
                   {link.label}
                 </NavLink>
               ))}
@@ -57,7 +68,7 @@ export default async function AppLayout({
                 variant="primary"
                 className="alias-code hidden sm:inline-flex"
               >
-                {profile.alias}
+                {formatAlias(profile.alias)}
               </Badge>
             ) : null}
             <form
@@ -72,7 +83,7 @@ export default async function AppLayout({
                 Sign out
               </button>
             </form>
-            <MobileNav alias={profile?.alias ?? null} links={NAV_LINKS} />
+            <MobileNav alias={profile?.alias ?? null} links={navLinks} />
           </div>
         </div>
       </header>
@@ -103,14 +114,20 @@ export default async function AppLayout({
 function NavLink({
   href,
   children,
+  highlight,
 }: {
   href: string;
   children: React.ReactNode;
+  highlight?: boolean;
 }) {
   return (
     <Link
       href={href}
-      className="text-muted transition-colors duration-200 hover:text-ink"
+      className={
+        highlight
+          ? "text-warning transition-colors duration-200 hover:text-warning/80"
+          : "text-muted transition-colors duration-200 hover:text-ink"
+      }
     >
       {children}
     </Link>

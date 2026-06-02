@@ -11,6 +11,7 @@ import {
   SECTOR_OPTIONS,
   labelOf,
 } from "@/lib/profile/enums";
+import { formatAlias } from "@/lib/alias/display";
 import type {
   MatchStatus,
   PublicProfileColumns,
@@ -232,7 +233,7 @@ function MatchRowCard({
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1">
               <p className="display text-xl text-ink md:text-2xl">
-                {other.alias}
+                {formatAlias(other.alias)}
               </p>
               <p className="text-xs text-muted">{subtitle}</p>
             </div>

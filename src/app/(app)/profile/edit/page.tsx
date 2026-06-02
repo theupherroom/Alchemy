@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Badge } from "@/components/ui/Badge";
 import { ProfileEditForm } from "./ProfileEditForm";
+import { formatAlias } from "@/lib/alias/display";
 
 export const metadata = { title: "Edit profile — alchemy" };
 export const dynamic = "force-dynamic";
@@ -29,7 +30,7 @@ export default async function ProfileEditPage() {
             What can others see?
           </h1>
           <Badge variant="primary" className="alias-code">
-            {profile.alias}
+            {formatAlias(profile.alias)}
           </Badge>
         </div>
         <p className="max-w-md text-sm leading-relaxed text-muted">

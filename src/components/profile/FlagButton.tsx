@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { formatAlias } from "@/lib/alias/display";
 
 type FlagButtonProps = {
   reportedId: string;
@@ -57,7 +58,7 @@ export function FlagButton({ reportedId, reportedAlias }: FlagButtonProps) {
           >
             <p className="eyebrow">Report</p>
             <h2 className="display mt-2 text-2xl text-ink">
-              Flag {reportedAlias}?
+              Flag {formatAlias(reportedAlias)}?
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
               Use this for bad-faith behaviour — no-shows, harassment, or

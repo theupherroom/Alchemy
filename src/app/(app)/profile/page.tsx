@@ -12,6 +12,7 @@ import {
   STAGE_OPTIONS,
   labelOf,
 } from "@/lib/profile/enums";
+import { formatAlias } from "@/lib/alias/display";
 
 export const metadata = { title: "Your profile — alchemy" };
 export const dynamic = "force-dynamic";
@@ -42,7 +43,7 @@ export default async function ProfilePage({
         <div className="space-y-2">
           <p className="eyebrow">Your profile</p>
           <h1 className="display text-3xl text-ink md:text-5xl">
-            {profile.alias}
+            {formatAlias(profile.alias)}
           </h1>
           <p className="alias-code text-xs text-muted">
             The only name other members see until a confirmed meeting.
