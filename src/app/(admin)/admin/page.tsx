@@ -12,7 +12,7 @@ export default async function AdminOverviewPage() {
   const week = new Date(Date.now() - 7 * 86_400_000).toISOString();
 
   const [
-    totalUsers,
+    totalApprovedMembers,
     activeUsers,
     suspendedUsers,
     signupsWeek,
@@ -24,11 +24,15 @@ export default async function AdminOverviewPage() {
     aiCallsDay,
     pendingApproval,
   ] = await Promise.all([
-    admin.from("profiles").select("id", { count: "exact", head: true }),
     admin
       .from("profiles")
       .select("id", { count: "exact", head: true })
-      .eq("status", "active"),
+      .eq("approval_status", "approved"),
+    admin
+      .from("profiles")
+      .select("id", { count: "exact", head: true })
+      .eq("status", "active")
+      .eq("approval_status", "approved"),
     admin
       .from("profiles")
       .select("id", { count: "exact", head: true })
@@ -77,12 +81,16 @@ export default async function AdminOverviewPage() {
           ? ("warning" as const)
           : undefined,
     },
-    { label: "Total members", value: totalUsers.count ?? 0, href: "/admin/users" },
     {
-      label: "Active",
-      value: activeUsers.count ?? 0,
+      label: "Total members",
+      value: totalApprovedMembers.count ?? 0,
       href: "/admin/users?status=active",
       tone: "success" as const,
+    },
+    {
+      label: "Active (approved)",
+      value: activeUsers.count ?? 0,
+      href: "/admin/users?status=active",
     },
     {
       label: "Suspended",

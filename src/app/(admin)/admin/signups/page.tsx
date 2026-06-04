@@ -8,7 +8,28 @@ import { formatAlias } from "@/lib/alias/display";
 export const metadata = { title: "Signups — admin" };
 export const dynamic = "force-dynamic";
 
-const PAGE_SIZE = 50;
+const PAGE_SIZE = 100;
+
+type Profile = {
+  id: string;
+  alias: string;
+  full_name: string;
+  org_name: string;
+  personal_email: string;
+  status: string;
+  approval_status: "pending" | "approved" | "rejected";
+  created_at: string;
+  onboarded_at: string | null;
+  calendar_connected: boolean;
+};
+
+type SignupRow = {
+  id: string;
+  email: string;
+  createdAt: string;
+  emailConfirmedAt: string | null;
+  profile: Profile | null;
+};
 
 export default async function AdminSignupsPage({
   searchParams,
@@ -24,20 +45,55 @@ export default async function AdminSignupsPage({
         : range === "1"
           ? 1
           : 7;
-  const since = new Date(Date.now() - sinceDays * 86_400_000).toISOString();
+  const since = new Date(Date.now() - sinceDays * 86_400_000);
 
   const admin = createAdminClient();
-  const { data, error } = await admin
-    .from("profiles")
-    .select(
-      "id, alias, full_name, org_name, personal_email, status, created_at, onboarded_at, calendar_connected",
-    )
-    .gt("created_at", since)
-    .order("created_at", { ascending: false })
-    .limit(PAGE_SIZE);
 
-  const rows = data ?? [];
-  const allEmails = rows.map((r) => r.personal_email).join(", ");
+  // Pull auth users first so we catch people who confirmed email but never
+  // finished onboarding. Profile rows only exist after the user submits the
+  // onboarding form, so a pure profiles query misses them.
+  const { data: authPage, error: authError } =
+    await admin.auth.admin.listUsers({ perPage: PAGE_SIZE, page: 1 });
+
+  const authUsers = (authPage?.users ?? [])
+    .filter((u) => new Date(u.created_at) >= since)
+    .sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
+
+  const ids = authUsers.map((u) => u.id);
+  const { data: profileRows, error: profileError } = ids.length
+    ? await admin
+        .from("profiles")
+        .select(
+          "id, alias, full_name, org_name, personal_email, status, approval_status, created_at, onboarded_at, calendar_connected",
+        )
+        .in("id", ids)
+    : { data: [] as Profile[], error: null };
+
+  const profileById = new Map<string, Profile>(
+    ((profileRows ?? []) as Profile[]).map((p) => [p.id, p]),
+  );
+
+  const rows: SignupRow[] = authUsers.map((u) => ({
+    id: u.id,
+    email: u.email ?? "",
+    createdAt: u.created_at,
+    emailConfirmedAt: u.email_confirmed_at ?? null,
+    profile: profileById.get(u.id) ?? null,
+  }));
+
+  const error = authError ?? profileError;
+  const allEmails = rows.map((r) => r.profile?.personal_email ?? r.email).join(", ");
+
+  const incompleteCount = rows.filter((r) => !r.profile).length;
+  const pendingCount = rows.filter(
+    (r) => r.profile && r.profile.approval_status === "pending",
+  ).length;
+  const approvedCount = rows.filter(
+    (r) => r.profile && r.profile.approval_status === "approved",
+  ).length;
 
   return (
     <div className="container-site py-10">
@@ -47,9 +103,10 @@ export default async function AdminSignupsPage({
           New signups.
         </h1>
         <p className="max-w-2xl text-sm leading-relaxed text-muted">
-          Use this list to add testers to your Google OAuth Test Users until
-          verification clears. Hit copy on a single email, or grab all
-          emails at once and paste into Google Cloud Console.
+          Every account that has been created in this window — including ones
+          who confirmed their email but haven&apos;t finished the profile
+          form yet. Hit copy on a single email, or grab all at once to paste
+          into Google Cloud Console Test Users.
         </p>
       </div>
 
@@ -62,7 +119,7 @@ export default async function AdminSignupsPage({
 
       {error ? (
         <p className="rounded-[10px] bg-error/10 px-4 py-3 text-sm text-error">
-          {error.message}
+          {"message" in error ? error.message : "Could not load signups."}
         </p>
       ) : rows.length === 0 ? (
         <Card>
@@ -72,57 +129,21 @@ export default async function AdminSignupsPage({
         </Card>
       ) : (
         <>
-          <div className="mb-6 flex items-center justify-between rounded-2xl border border-border bg-white px-4 py-3">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-white px-4 py-3">
             <p className="text-xs text-muted">
-              {rows.length} signup{rows.length === 1 ? "" : "s"} shown
+              {rows.length} signup{rows.length === 1 ? "" : "s"} ·{" "}
+              {approvedCount} approved · {pendingCount} pending ·{" "}
+              {incompleteCount} onboarding incomplete
             </p>
-            <CopyButton value={allEmails} label={`Copy all ${rows.length} emails`} />
+            <CopyButton
+              value={allEmails}
+              label={`Copy all ${rows.length} emails`}
+            />
           </div>
 
           <div className="space-y-3">
             {rows.map((r) => (
-              <Card key={r.id}>
-                <CardBody className="flex flex-wrap items-center justify-between gap-4 py-4">
-                  <div className="min-w-0 space-y-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <p className="display text-lg text-ink">
-                        {r.alias ? formatAlias(r.alias) : "(no alias yet)"}
-                      </p>
-                      {r.status === "suspended" ? (
-                        <Badge variant="error">Suspended</Badge>
-                      ) : !r.onboarded_at ? (
-                        <Badge variant="warning">Onboarding incomplete</Badge>
-                      ) : (
-                        <Badge variant="success">Active</Badge>
-                      )}
-                      {r.calendar_connected ? (
-                        <Badge variant="primary">Calendar connected</Badge>
-                      ) : null}
-                    </div>
-                    <p className="text-xs text-muted">
-                      {r.full_name || "—"} · {r.org_name || "—"} · joined{" "}
-                      {new Date(r.created_at).toLocaleString(undefined, {
-                        month: "short",
-                        day: "numeric",
-                        hour: "numeric",
-                        minute: "2-digit",
-                      })}
-                    </p>
-                    <p className="alias-code text-xs text-primary-fg">
-                      {r.personal_email}
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2">
-                    <CopyButton value={r.personal_email} label="Copy email" />
-                    <Link
-                      href={`/admin/users/${r.id}`}
-                      className="text-xs text-primary underline-offset-4 hover:underline"
-                    >
-                      Open →
-                    </Link>
-                  </div>
-                </CardBody>
-              </Card>
+              <SignupCard key={r.id} row={r} />
             ))}
           </div>
         </>
@@ -143,12 +164,85 @@ export default async function AdminSignupsPage({
             </a>
             .
           </li>
-          <li>Scroll to <span className="text-ink">Test users</span> → <span className="text-ink">+ Add users</span>.</li>
-          <li>Paste the copied emails. Up to 100 testers allowed while in Testing mode.</li>
+          <li>
+            Scroll to <span className="text-ink">Test users</span> →{" "}
+            <span className="text-ink">+ Add users</span>.
+          </li>
+          <li>
+            Paste the copied emails. Up to 100 testers allowed while in Testing
+            mode.
+          </li>
           <li>Save. The user can now sign in with Google immediately.</li>
         </ol>
       </div>
     </div>
+  );
+}
+
+function SignupCard({ row }: { row: SignupRow }) {
+  const profile = row.profile;
+  const displayEmail = profile?.personal_email ?? row.email;
+  const joined = new Date(row.createdAt).toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  });
+
+  let stateBadge: React.ReactNode = null;
+  if (!profile) {
+    stateBadge = row.emailConfirmedAt ? (
+      <Badge variant="warning">Onboarding incomplete</Badge>
+    ) : (
+      <Badge variant="error">Email unconfirmed</Badge>
+    );
+  } else if (profile.status === "suspended") {
+    stateBadge = <Badge variant="error">Suspended</Badge>;
+  } else if (profile.approval_status === "pending") {
+    stateBadge = <Badge variant="warning">Pending approval</Badge>;
+  } else if (profile.approval_status === "rejected") {
+    stateBadge = <Badge variant="error">Rejected</Badge>;
+  } else {
+    stateBadge = <Badge variant="success">Approved</Badge>;
+  }
+
+  return (
+    <Card>
+      <CardBody className="flex flex-wrap items-center justify-between gap-4 py-4">
+        <div className="min-w-0 space-y-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <p className="display text-lg text-ink">
+              {profile?.alias
+                ? formatAlias(profile.alias)
+                : row.emailConfirmedAt
+                  ? "Has not built profile"
+                  : "Has not confirmed email"}
+            </p>
+            {stateBadge}
+            {profile?.calendar_connected ? (
+              <Badge variant="primary">Calendar connected</Badge>
+            ) : null}
+          </div>
+          <p className="text-xs text-muted">
+            {profile?.full_name || "—"} · {profile?.org_name || "—"} · joined{" "}
+            {joined}
+            {!row.emailConfirmedAt ? " · awaiting email confirmation" : ""}
+          </p>
+          <p className="alias-code text-xs text-primary-fg">{displayEmail}</p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          <CopyButton value={displayEmail} label="Copy email" />
+          {profile ? (
+            <Link
+              href={`/admin/users/${row.id}`}
+              className="text-xs text-primary underline-offset-4 hover:underline"
+            >
+              Open →
+            </Link>
+          ) : null}
+        </div>
+      </CardBody>
+    </Card>
   );
 }
 
