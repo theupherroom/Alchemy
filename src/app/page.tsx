@@ -3,7 +3,6 @@ import { createClient } from "@/lib/supabase/server";
 import { Grain } from "@/components/landing/Grain";
 import { Reveal } from "@/components/landing/Reveal";
 import { SampleCard } from "@/components/landing/SampleCard";
-import { UpHerRoomSection } from "@/components/landing/UpHerRoomSection";
 import { MarketingFooter } from "@/components/landing/MarketingFooter";
 
 export const dynamic = "force-dynamic";
@@ -18,14 +17,18 @@ export default async function Home() {
     <div className="relative min-h-[100dvh] overflow-x-hidden bg-cream">
       <Grain />
 
-      {/* ambient color washes */}
+      {/* ambient color washes — burnt-orange + salmon + cyan */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-32 -left-32 h-[480px] w-[480px] rounded-full bg-primary-bg/50 blur-[120px]"
+        className="pointer-events-none absolute -top-32 -left-32 h-[480px] w-[480px] rounded-full bg-primary-bg/60 blur-[120px]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-[40%] -right-40 h-[520px] w-[520px] rounded-full bg-secondary-bg/60 blur-[140px]"
+        className="pointer-events-none absolute top-[36%] -right-40 h-[520px] w-[520px] rounded-full bg-accent/40 blur-[140px]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[68%] -left-32 h-[420px] w-[420px] rounded-full bg-secondary-bg/60 blur-[140px]"
       />
 
       <div className="relative z-10">
@@ -34,8 +37,9 @@ export default async function Home() {
         <ExchangeSection />
         <HowItWorks />
         <RevealSection />
-        <UpHerRoomSection />
-        <Trust />
+        <BuiltBy />
+        <OurCore />
+        <BuiltFor />
         <FinalCta signedIn={Boolean(user)} />
         <MarketingFooter />
       </div>
@@ -95,18 +99,18 @@ function Hero({ signedIn }: { signedIn: boolean }) {
 
         <Reveal delay={80}>
           <h1 className="display text-5xl leading-[1.02] text-ink sm:text-6xl md:text-[5.5rem]">
-            Mission <span className="text-primary">first.</span>
+            Partnerships Built on{" "}
+            <span className="text-primary">Impact.</span>
             <br />
-            Identity at the meeting.
+            Not Identity.
           </h1>
         </Reveal>
 
         <Reveal delay={160}>
           <p className="max-w-lg text-lg leading-relaxed text-muted">
-            Alchemy is a bias-blind strategic partnership platform. You meet
-            anonymously around the work you each do — and only learn who the
-            other person is once the introduction is already on both your
-            calendars.
+            Alchemy eliminates subjective bias by connecting impact-focused
+            leaders through shared vision, ensuring initial meetings occur on
+            equitable ground.
           </p>
         </Reveal>
 
@@ -114,7 +118,7 @@ function Hero({ signedIn }: { signedIn: boolean }) {
           <div className="flex flex-wrap items-center gap-5">
             <Link
               href={signedIn ? "/dashboard" : "/signup"}
-              className="group inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-7 pr-3 text-sm font-medium text-white transition-[transform,opacity] active:scale-[0.98] hover:opacity-95"
+              className="group inline-flex items-center gap-2 rounded-full bg-primary py-3 pl-7 pr-3 text-sm font-medium text-white shadow-press transition-[transform,opacity,box-shadow] duration-200 active:scale-[0.98] hover:bg-primary-hover hover:shadow-elev-lg"
             >
               {signedIn ? "Open the app" : "Start your anonymous profile"}
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
@@ -136,7 +140,7 @@ function Hero({ signedIn }: { signedIn: boolean }) {
             <Dot />
             <Mark>Mission-matched</Mark>
             <Dot />
-            <Mark>Auto-scheduled</Mark>
+            <Mark>AI-scheduled</Mark>
           </div>
         </Reveal>
       </div>
@@ -178,19 +182,19 @@ function ExchangeSection() {
           <div className="space-y-6 md:sticky md:top-32">
             <span className="eyebrow">The exchange</span>
             <h2 className="display text-4xl leading-[1.05] text-ink md:text-6xl">
-              Two missions in conversation.
+              The End of Superficial Partnerships.
             </h2>
             <p className="max-w-md text-base leading-relaxed text-muted">
-              Every profile leads with mission. What you bring, what you need —
-              concrete is better than aspirational. Claude scores each pair on
-              alignment of mission, partnership type, complementarity, and
-              geographic fit. Most pairs don't match. The ones that do tend to
-              matter.
+              The platform helps mission-driven leaders identify compatible
+              partners by prioritising work alignment over credentials or
+              connections. Users create anonymous profiles, review matched
+              opportunities, and reveal identity only after mutual agreement to
+              proceed.
             </p>
             <ul className="space-y-3 pt-4 text-sm text-ink">
               <Bullet>Sector and partnership-type alignment</Bullet>
               <Bullet>Complementary needs and offers</Bullet>
-              <Bullet>Honest scores — 80+ reserved for genuine fit</Bullet>
+              <Bullet>Honest AI scores — 80+ reserved for genuine fit</Bullet>
             </ul>
           </div>
         </Reveal>
@@ -240,31 +244,29 @@ function HowItWorks() {
   const steps = [
     {
       n: "01",
-      title: "Sign up with an alias.",
-      body: "Your full name, organisation, and contact details stay private. Other members see Partner Violet-42 — never you.",
+      title: "Register behind an alias.",
+      body: "Members see Partner Violet-42 — not your name, organisation, or photo. All profiles undergo internal verification before matching initiates.",
     },
     {
       n: "02",
       title: "Browse missions, not headshots.",
-      body: "The exchange is mission-first. Filter by sector, partnership type, and reach. Match scores rank pairs by genuine fit.",
+      body: "The system prioritises mission-alignment, using AI to assess genuine compatibility while disregarding titles and organisational logos.",
     },
     {
       n: "03",
-      title: "We book the meeting.",
-      body: "When you both accept, Alchemy reads your free/busy and books a 30-minute intro on Google Meet. You meet — and only then do names appear.",
+      title: "AI handles the logistics.",
+      body: "Upon mutual acceptance, the system reviews calendars, generates introduction emails, and schedules a 30-minute video meeting. Names appear only at meeting start.",
     },
   ];
 
   return (
-    <section
-      id="how-it-works"
-      className="container-site py-24 md:py-32"
-    >
+    <section id="how-it-works" className="container-site py-24 md:py-32">
       <Reveal>
         <div className="max-w-2xl space-y-4 pb-16">
           <span className="eyebrow">How it works</span>
           <h2 className="display text-4xl leading-[1.05] text-ink md:text-6xl">
-            Three steps. No back-and-forth.
+            Three steps. No back-and-forth.{" "}
+            <span className="text-primary">Powered by AI.</span>
           </h2>
         </div>
       </Reveal>
@@ -292,24 +294,26 @@ function HowItWorks() {
 
 function RevealSection() {
   return (
-    <section className="border-y border-border/60 bg-primary-dk text-cream">
+    <section className="border-y border-border/60 bg-ink text-cream">
       <div className="container-site py-24 md:py-40">
         <div className="grid gap-12 md:grid-cols-[1fr_auto] md:items-end md:gap-24">
           <Reveal>
             <div className="space-y-8">
               <span className="alias-code inline-flex items-center gap-2 rounded-full border border-cream/15 bg-cream/5 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-cream/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-secondary" />
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 The reveal
               </span>
               <h2 className="display text-4xl leading-[1.04] text-cream md:text-7xl">
-                You learn who they are <br />
-                <span className="text-secondary">when you meet.</span>
+                Show up authentically.{" "}
+                <br className="hidden md:inline" />
+                <span className="text-accent">Not rehearsed.</span>
               </h2>
               <p className="max-w-xl text-base leading-relaxed text-cream/70">
-                Not in the directory. Not in the match request. Not in the
-                calendar invite. Not in the intro email. The first time real
-                names appear is in the meeting itself — where the conversation
-                is already aligned and identity stops carrying the weight.
+                Identity remains concealed across all communications —
+                directory listings, match requests, introductions, and calendar
+                invites — preventing pre-meeting research and reducing bias
+                introduction. The first time real names appear is in the
+                meeting itself.
               </p>
             </div>
           </Reveal>
@@ -328,7 +332,96 @@ function RevealSection() {
   );
 }
 
-function Trust() {
+function BuiltBy() {
+  return (
+    <section className="container-site py-24 md:py-32">
+      <Reveal>
+        <div className="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-16">
+          <div className="space-y-3">
+            <span className="eyebrow">Built by</span>
+            <h2 className="display text-3xl leading-[1.1] text-ink md:text-4xl">
+              The UpHer Room Inc.
+            </h2>
+            <a
+              href="https://theupherroom.com"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 pt-3 text-xs text-primary underline-offset-4 hover:underline"
+            >
+              theupherroom.com
+              <ExternalLinkIcon />
+            </a>
+          </div>
+          <p className="text-base leading-relaxed text-muted md:text-lg">
+            The organisation advances leadership development, capacity building,
+            and economic mobility for women, believing influence develops
+            through access, preparation, collaboration, and strategic
+            networking. Alchemy represents their technology initiative making
+            strategic partnership more accessible and mission-centered.
+          </p>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
+function OurCore() {
+  const cards = [
+    {
+      title: "Research",
+      body: "Examining barriers, patterns, and opportunities affecting women's access to leadership, capital, collaboration, and economic mobility.",
+    },
+    {
+      title: "Education",
+      body: "Creating learning experiences and programs strengthening women's leadership capacity and sustainability.",
+    },
+    {
+      title: "Technology",
+      body: "Developing digital tools expanding access and creating connection pathways for mission-driven leaders.",
+    },
+  ];
+
+  return (
+    <section className="border-t border-border/60 bg-cream-deep/40 py-24 md:py-32">
+      <div className="container-site">
+        <Reveal>
+          <div className="max-w-2xl space-y-4 pb-16">
+            <span className="eyebrow">The cards</span>
+            <h2 className="display text-4xl leading-[1.05] text-ink md:text-6xl">
+              Our core.
+            </h2>
+            <p className="max-w-md text-base leading-relaxed text-muted">
+              Three pillars that shape The UpHer Room&apos;s work — and the
+              context Alchemy sits inside.
+            </p>
+          </div>
+        </Reveal>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {cards.map((card, i) => (
+            <Reveal key={card.title} delay={i * 120}>
+              <div className="group h-full rounded-[1.75rem] border border-border bg-white p-2 transition-transform duration-[600ms] ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1">
+                <div className="flex h-full flex-col rounded-[calc(1.75rem-0.5rem)] bg-cream p-8 md:min-h-[280px]">
+                  <span className="alias-code text-[10px] uppercase tracking-[0.22em] text-bronze">
+                    0{i + 1} / pillar
+                  </span>
+                  <h3 className="display mt-5 text-3xl leading-tight text-ink md:text-[2rem]">
+                    {card.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-relaxed text-muted">
+                    {card.body}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BuiltFor() {
   return (
     <section className="container-site py-24 md:py-32">
       <Reveal>
@@ -336,14 +429,15 @@ function Trust() {
           <div className="space-y-3">
             <span className="eyebrow">Built for</span>
             <h2 className="display text-3xl leading-[1.1] text-ink md:text-4xl">
-              Mission-driven founders, women-owned first.
+              Every leader driving real change.
             </h2>
           </div>
           <p className="text-base leading-relaxed text-muted md:text-lg">
-            Alchemy is the first product from The UpHer Room Inc., a community
-            for women-owned businesses. Women-owned organisations get first
-            access; the platform is open to any mission-driven founder,
-            entrepreneur, or organisational leader.
+            Alchemy serves mission-focused founders, nonprofit directors,
+            social entrepreneurs, and organisational changemakers. Originating
+            as an innovation project within The UpHer Room, the platform
+            addresses systemic biases limiting exceptional leaders — now
+            accessible to any leader prioritising mission impact.
           </p>
         </div>
       </Reveal>
@@ -356,8 +450,9 @@ function FinalCta({ signedIn }: { signedIn: boolean }) {
     <section className="container-site pb-24 md:pb-32">
       <Reveal>
         <div className="overflow-hidden rounded-[2rem] border border-border bg-cream-deep/60 p-2">
-          <div className="relative rounded-[calc(2rem-0.5rem)] bg-gradient-to-br from-white via-cream to-secondary-bg/40 px-8 py-16 md:px-16 md:py-24">
-            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary-bg/50 blur-3xl" />
+          <div className="relative rounded-[calc(2rem-0.5rem)] bg-gradient-to-br from-white via-cream to-accent/30 px-8 py-16 md:px-16 md:py-24">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-primary-bg/60 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-secondary-bg/50 blur-3xl" />
             <div className="relative max-w-2xl space-y-6">
               <span className="eyebrow">Begin</span>
               <h2 className="display text-4xl leading-[1.05] text-ink md:text-6xl">
@@ -418,6 +513,23 @@ function Dot() {
 }
 
 function Arrow() {
+  return (
+    <svg
+      className="h-3 w-3"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M7 17L17 7M9 7h8v8" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon() {
   return (
     <svg
       className="h-3 w-3"

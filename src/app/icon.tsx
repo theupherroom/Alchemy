@@ -1,8 +1,8 @@
 import { ImageResponse } from "next/og";
 
 // Browser tab favicon — generated at build time by Next.
-// Lowercase serif "a" on warm cream, deep-purple ink. Sits in the same
-// editorial wordmark family as theupherroom.com.
+// Lowercase serif "a" on off-white, espresso ink. Aligned with the v3 palette
+// (burnt orange + espresso + cyan + salmon on off-white).
 
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
@@ -17,15 +17,14 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#fdfbf7",
-          color: "#21172f",
+          background: "#fbf6f3",
+          color: "#4b3621",
           fontSize: 26,
-          fontFamily:
-            "Fraunces, 'Times New Roman', Georgia, serif",
+          fontFamily: "Fraunces, 'Times New Roman', Georgia, serif",
           fontWeight: 400,
           letterSpacing: "-0.04em",
           borderRadius: 6,
-          border: "1px solid #e4d9cf",
+          border: "1px solid #e8dccf",
           paddingBottom: 2,
         }}
       >

@@ -1,47 +1,61 @@
 @import "tailwindcss";
 
 :root {
-  /* —— Brand palette: bolder Alchemy variant, derived from realher.
-   *    The realher origin tokens are preserved in src/styles/theme-legacy.css
-   *    in case we need to revert.
+  /* —— Brand palette: Alchemy v3 (2026-06).
+   *    Burnt orange + espresso brown + cyan + salmon on off-white.
+   *    Replaces the realher purple/rose family. Previous palette saved at
+   *    src/styles/theme-legacy.css if revert is ever needed.
+   *
+   *    Source colors:
+   *      BURNT ORANGE  #D35400 — primary
+   *      ESPRESSO      #4B3621 — ink + dark surfaces
+   *      CYAN          #334E4F — secondary / dark teal
+   *      OFF WHITE     #FBF6F3 — background
+   *      SALMON        #F0C1A3 — primary-bg-strong / accent
    * —— */
-  --background: #ffffff;
-  --foreground: #2a1f1c;
+  --background: #fbf6f3;
+  --foreground: #4b3621;
 
-  --primary: #6f2cc3;
-  --primary-hover: #5a1fa3;
-  --primary-active: #441478;
-  --primary-fg: #3a1e7d;
-  --primary-bg: #e7d4f5;
-  --primary-bg-strong: #d2b4eb;
-  --primary-dk: #1a0d33;
+  --primary: #d35400;
+  --primary-hover: #b14600;
+  --primary-active: #8f3800;
+  --primary-fg: #7a2f00;
+  --primary-bg: #fbe4d5;
+  --primary-bg-strong: #f0c1a3;
+  --primary-dk: #2a1605;
 
-  --secondary: #db6c80;
-  --secondary-hover: #b54761;
-  --secondary-fg: #8a2840;
-  --secondary-bg: #fbd4dd;
+  --secondary: #334e4f;
+  --secondary-hover: #26393a;
+  --secondary-fg: #1f3a3b;
+  --secondary-bg: #d4e1e1;
 
-  /* —— Alchemy editorial extensions (cream surfaces, ink, muted) —— */
-  --cream: #fdfbf7;
-  --cream-deep: #f5efe6;
-  --cream-tint: #f0e7da;
-  --ink: #2a1f1c;
-  --muted: #6b5d58;
-  --border: #e4d9cf;
+  /* Salmon as a dedicated accent for tinted moments (badge backgrounds,
+     gradient washes, eyebrow dots). Distinct from primary-bg-strong even
+     though it's the same hex — kept separate so future tweaks don't
+     accidentally diverge. */
+  --accent: #f0c1a3;
+
+  /* —— Alchemy editorial surface scale —— */
+  --cream: #fbf6f3;
+  --cream-deep: #f4ece5;
+  --cream-tint: #ede0d3;
+  --ink: #4b3621;
+  --muted: #7c6856;
+  --border: #e8dccf;
   --border-strong: #cbb9a5;
   --bronze: #9c6b4f;
 
-  /* —— Semantic (bumped for visibility) —— */
+  /* —— Semantic (tuned to coexist with burnt-orange primary) —— */
   --success: #2f7c4b;
   --success-bg: #d4ecdb;
-  --warning: #b4751d;
-  --warning-bg: #fbe8cc;
-  --error: #a33730;
-  --error-bg: #f7d3d0;
+  --warning: #a86618;
+  --warning-bg: #f7e2c2;
+  --error: #962f3e;
+  --error-bg: #f5d4d9;
 
-  /* —— Elevation: warm shadow only (design.md §4) —— */
-  --shadow-warm: 0 4px 24px rgba(42, 31, 28, 0.08);
-  --shadow-warm-lg: 0 16px 56px rgba(42, 31, 28, 0.12);
+  /* —— Elevation: warm shadow keyed off espresso instead of ink-purple —— */
+  --shadow-warm: 0 4px 24px rgba(75, 54, 33, 0.10);
+  --shadow-warm-lg: 0 16px 56px rgba(75, 54, 33, 0.14);
 }
 
 @theme {
@@ -63,6 +77,8 @@
   --color-secondary-hover: var(--secondary-hover);
   --color-secondary-fg: var(--secondary-fg);
   --color-secondary-bg: var(--secondary-bg);
+
+  --color-accent: var(--accent);
 
   --color-cream: var(--cream);
   --color-cream-deep: var(--cream-deep);
@@ -89,8 +105,8 @@
 
   --shadow-elev: var(--shadow-warm);
   --shadow-elev-lg: var(--shadow-warm-lg);
-  /* Press shadow generates the `shadow-press` utility */
-  --shadow-press: 0 2px 8px rgba(68, 20, 120, 0.18);
+  /* Press shadow generates the `shadow-press` utility — burnt-orange-tinted */
+  --shadow-press: 0 2px 8px rgba(211, 84, 0, 0.22);
 }
 
 @layer base {

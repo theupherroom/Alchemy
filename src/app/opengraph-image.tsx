@@ -1,11 +1,13 @@
 import { ImageResponse } from "next/og";
 
 // Social share image (Twitter, LinkedIn, iMessage) — 1200x630 per OG spec.
+// v3 palette: off-white background, burnt-orange + salmon ambient washes,
+// espresso headline, cyan dot.
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt =
-  "alchemy — a bias-blind strategic partnership platform. A tool of The UpHer Room.";
+  "alchemy — partnerships built on impact, not identity. A tool of The UpHer Room.";
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -17,13 +19,13 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#fdfbf7",
+          background: "#fbf6f3",
           padding: 72,
           fontFamily: "'Fraunces', 'Times New Roman', Georgia, serif",
           position: "relative",
         }}
       >
-        {/* ambient color washes */}
+        {/* burnt-orange ambient wash, top-left */}
         <div
           style={{
             position: "absolute",
@@ -32,10 +34,11 @@ export default function OpengraphImage() {
             width: 520,
             height: 520,
             borderRadius: 9999,
-            background: "rgba(237, 227, 243, 0.6)",
+            background: "rgba(251, 228, 213, 0.85)",
             filter: "blur(120px)",
           }}
         />
+        {/* salmon ambient wash, bottom-right */}
         <div
           style={{
             position: "absolute",
@@ -44,7 +47,7 @@ export default function OpengraphImage() {
             width: 520,
             height: 520,
             borderRadius: 9999,
-            background: "rgba(245, 221, 227, 0.7)",
+            background: "rgba(240, 193, 163, 0.7)",
             filter: "blur(120px)",
           }}
         />
@@ -54,7 +57,7 @@ export default function OpengraphImage() {
             display: "flex",
             alignItems: "center",
             gap: 16,
-            color: "#21172f",
+            color: "#4b3621",
             fontFamily: "'DM Sans', Helvetica, Arial, sans-serif",
             fontSize: 16,
             letterSpacing: 4,
@@ -67,19 +70,26 @@ export default function OpengraphImage() {
               width: 10,
               height: 10,
               borderRadius: 9999,
-              background: "#e6a7b0",
+              background: "#334e4f",
             }}
           />
           A tool of The UpHer Room
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 18, zIndex: 1 }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 18,
+            zIndex: 1,
+          }}
+        >
           <div
             style={{
               fontSize: 132,
               lineHeight: 1.0,
               letterSpacing: -3,
-              color: "#21172f",
+              color: "#4b3621",
             }}
           >
             alchemy.
@@ -88,11 +98,12 @@ export default function OpengraphImage() {
             style={{
               fontSize: 36,
               lineHeight: 1.15,
-              color: "#2a1f1c",
+              color: "#4b3621",
               maxWidth: 900,
             }}
           >
-            Mission first. Identity at the meeting.
+            Partnerships built on{" "}
+            <span style={{ color: "#d35400" }}>impact.</span> Not identity.
           </div>
         </div>
 
@@ -101,7 +112,7 @@ export default function OpengraphImage() {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            color: "#6b5d58",
+            color: "#7c6856",
             fontFamily: "'DM Sans', Helvetica, Arial, sans-serif",
             fontSize: 18,
             zIndex: 1,
