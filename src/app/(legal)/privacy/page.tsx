@@ -15,7 +15,7 @@ export default function PrivacyPage() {
 
       <div className="prose-alchemy space-y-6 text-base leading-relaxed text-ink">
         <Section title="The short version">
-          alchemy is anonymous by design. Your real name, organisation name,
+          alchemy is anonymous by design. Your real name, organization name,
           personal email, website, photo, and credentials are stored privately
           and are only shared with another member <em>at the meeting itself</em>.
           They never appear in browse, match previews, calendar invites, or
@@ -26,13 +26,13 @@ export default function PrivacyPage() {
           <ul className="list-inside list-disc space-y-2 text-sm text-muted">
             <li>Account: email address + hashed password (via Supabase Auth).</li>
             <li>
-              Visible profile: mission, sector, organisation type, stage,
+              Visible profile: mission, sector, organization type, stage,
               partnership types sought, what you offer, what you need,
               geographic reach, region. This is what other members see beside
               your alias.
             </li>
             <li>
-              Hidden profile: full name, organisation name, personal email,
+              Hidden profile: full name, organization name, personal email,
               website, profile photo URL, years in operation, credentials.
               These never appear in the directory.
             </li>
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
           We use Anthropic's Claude API to score partnership compatibility and
           draft the intro email's rationale paragraph. Only your{" "}
           <strong>visible</strong> profile fields are passed to Claude — never
-          your real name, email, organisation, website, or photo. AI calls are
+          your real name, email, organization, website, or photo. AI calls are
           logged with token counts (not content) for cost monitoring.
         </Section>
 

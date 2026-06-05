@@ -8,7 +8,7 @@ import {
 } from "@/lib/profile/enums";
 import type { PublicProfileColumns } from "@/types/database";
 
-export const SCORE_SYSTEM_PROMPT = `You are evaluating strategic partnership potential between two mission-driven organisations. Score 0-100 based on alignment of mission, sector, partnership types sought, complementarity of needs and offers, and geographic compatibility. Be honest — most pairs are not a strong match. Reserve 80+ for genuinely strong alignment. Return strict JSON only, no preamble.`;
+export const SCORE_SYSTEM_PROMPT = `You are evaluating strategic partnership potential between two mission-driven organizations. Score 0-100 based on alignment of mission, sector, partnership types sought, complementarity of needs and offers, and geographic compatibility. Be honest — most pairs are not a strong match. Reserve 80+ for genuinely strong alignment. Return strict JSON only, no preamble.`;
 
 export function buildScoreUserPrompt(
   a: PublicProfileColumns,
@@ -60,5 +60,5 @@ Mission: ${args.otherMission}
 Offers: ${args.otherOffers}
 Needs: ${args.otherNeeds}
 
-Return one paragraph only. Speak directly to ${args.recipientAlias} in second person. Do not mention names, organisations, or websites — those stay hidden until the meeting.`;
+Return one paragraph only. Speak directly to ${args.recipientAlias} in second person. Do not mention names, organizations, or websites — those stay hidden until the meeting.`;
 }

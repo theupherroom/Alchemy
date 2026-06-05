@@ -82,7 +82,7 @@ export function renderApprovedEmail(vars: ApprovedEmailVars): string {
                   A reminder
                 </p>
                 <p style="margin:0;font-size:14px;line-height:1.6;color:#2a1f1c;">
-                  Your real name and organisation stay hidden behind
+                  Your real name and organization stay hidden behind
                   <span style="font-family:'JetBrains Mono',monospace;color:#3a1e7d;">${e(vars.alias)}</span>
                   until the moment your first intro meeting begins. Lead with
                   the mission. The rest follows.

@@ -74,25 +74,25 @@ export default async function CalendarSettingsPage({
           </div>
 
           {justConnected ? (
-            <p className="rounded-[10px] bg-success/10 px-4 py-3 text-xs text-success">
+            <p className="rounded-input bg-success/10 px-4 py-3 text-xs text-success">
               Calendar connected. Future matches will be auto-scheduled.
             </p>
           ) : null}
           {justDisconnected ? (
-            <p className="rounded-[10px] bg-warning/10 px-4 py-3 text-xs text-warning">
+            <p className="rounded-input bg-warning/10 px-4 py-3 text-xs text-warning">
               Calendar disconnected. Auto-scheduling is paused until you
               reconnect.
             </p>
           ) : null}
           {notConfigured ? (
-            <p className="rounded-[10px] bg-warning/10 px-4 py-3 text-xs text-warning">
+            <p className="rounded-input bg-warning/10 px-4 py-3 text-xs text-warning">
               Google OAuth is not yet configured on this deployment. Set
               GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET, and
               GOOGLE_OAUTH_REDIRECT_URI in your environment, then redeploy.
             </p>
           ) : null}
           {otherError ? (
-            <p className="rounded-[10px] bg-error/10 px-4 py-3 text-xs text-error">
+            <p className="rounded-input bg-error/10 px-4 py-3 text-xs text-error">
               {otherError}
             </p>
           ) : null}

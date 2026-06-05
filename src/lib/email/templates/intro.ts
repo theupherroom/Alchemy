@@ -1,6 +1,6 @@
 // Plain-HTML email template. No React-Email dependency — kept inline so
 // rendering works in any environment without extra build steps.
-// Anonymity rule: aliases only, never real names, organisations, or websites.
+// Anonymity rule: aliases only, never real names, organizations, or websites.
 
 type IntroEmailVars = {
   recipientAlias: string;

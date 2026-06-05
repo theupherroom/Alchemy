@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   if (secret) {
     const auth = request.headers.get("authorization");
     if (auth !== `Bearer ${secret}`) {
-      return NextResponse.json({ error: "unauthorised" }, { status: 401 });
+      return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
   }
 

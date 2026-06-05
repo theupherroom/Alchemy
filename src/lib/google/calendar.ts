@@ -112,3 +112,29 @@ export async function createEvent(
 
   return { id: data.id ?? "", meetLink };
 }
+
+// Patches an existing event's start/end time without recreating it. Used for
+// rescheduling — preserves the same eventId, hangoutLink, and conferenceData
+// so the Meet link stays stable across reschedules.
+export async function updateEventTime(
+  accessToken: string,
+  eventId: string,
+  startIso: string,
+  endIso: string,
+): Promise<void> {
+  const url = new URL(`${EVENTS_URL}/${encodeURIComponent(eventId)}`);
+  const res = await fetch(url, {
+    method: "PATCH",
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      start: { dateTime: startIso, timeZone: "UTC" },
+      end: { dateTime: endIso, timeZone: "UTC" },
+    }),
+  });
+  if (!res.ok) {
+    throw new Error(`event update failed: ${res.status} ${await res.text()}`);
+  }
+}

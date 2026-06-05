@@ -85,7 +85,7 @@ export function OnboardingForm({ email }: { email: string }) {
             </Select>
           </Label>
           <Label htmlFor="org_type">
-            Organisation type
+            Organization type
             <Select id="org_type" name="org_type" required defaultValue="">
               <option value="" disabled>
                 Pick one…
@@ -173,7 +173,7 @@ export function OnboardingForm({ email }: { email: string }) {
             name="what_we_need"
             rows={3}
             required
-            placeholder="Funder intros, programme co-design partners, regulatory help."
+            placeholder="Funder intros, program co-design partners, regulatory help."
           />
         </Label>
 
@@ -186,7 +186,7 @@ export function OnboardingForm({ email }: { email: string }) {
             {PARTNERSHIP_TYPE_OPTIONS.map((o) => (
               <label
                 key={o.value}
-                className="flex cursor-pointer items-start gap-3 rounded-[10px] border border-border bg-white p-3 transition-colors duration-200 hover:border-primary/40 has-checked:border-primary has-checked:bg-primary-bg/40"
+                className="flex cursor-pointer items-start gap-3 rounded-input border border-border bg-white p-3 transition-colors duration-200 hover:border-primary/40 has-checked:border-primary has-checked:bg-primary-bg/40"
               >
                 <input
                   type="checkbox"
@@ -228,7 +228,7 @@ export function OnboardingForm({ email }: { email: string }) {
             />
           </Label>
           <Label htmlFor="org_name">
-            Organisation name
+            Organization name
             <Input id="org_name" name="org_name" required />
           </Label>
         </div>

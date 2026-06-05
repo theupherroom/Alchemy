@@ -55,7 +55,7 @@ export default async function ProfilePage({
       </div>
 
       {saved === "1" ? (
-        <div className="mb-6 rounded-[10px] bg-success/10 px-4 py-3 text-sm text-success">
+        <div className="mb-6 rounded-input bg-success/10 px-4 py-3 text-sm text-success">
           Profile saved. Other members will see the updated version on browse.
         </div>
       ) : null}
@@ -69,7 +69,7 @@ export default async function ProfilePage({
           <div className="grid gap-6 md:grid-cols-2">
             <KeyValue label="Sector" value={labelOf(SECTOR_OPTIONS, profile.sector)} />
             <KeyValue
-              label="Organisation type"
+              label="Organization type"
               value={labelOf(ORG_TYPE_OPTIONS, profile.org_type)}
             />
             <KeyValue label="Stage" value={labelOf(STAGE_OPTIONS, profile.stage)} />
@@ -107,7 +107,7 @@ export default async function ProfilePage({
           <p className="eyebrow">Private — only ever shown at the meeting</p>
           <div className="grid gap-4 md:grid-cols-2">
             <KeyValue label="Full name" value={profile.full_name} />
-            <KeyValue label="Organisation" value={profile.org_name} />
+            <KeyValue label="Organization" value={profile.org_name} />
             <KeyValue label="Email" value={profile.personal_email} />
             {profile.website ? (
               <KeyValue label="Website" value={profile.website} />

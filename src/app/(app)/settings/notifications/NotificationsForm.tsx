@@ -81,12 +81,12 @@ export function NotificationsForm({ defaults }: { defaults: Defaults }) {
       </ul>
 
       {state.error ? (
-        <p className="rounded-[10px] bg-error/10 px-3 py-2 text-xs text-error">
+        <p className="rounded-input bg-error/10 px-3 py-2 text-xs text-error">
           {state.error}
         </p>
       ) : null}
       {state.ok ? (
-        <p className="rounded-[10px] bg-success/10 px-3 py-2 text-xs text-success">
+        <p className="rounded-input bg-success/10 px-3 py-2 text-xs text-success">
           {state.ok}
         </p>
       ) : null}

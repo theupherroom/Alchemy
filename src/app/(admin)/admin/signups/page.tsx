@@ -4,6 +4,7 @@ import { Card, CardBody } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { CopyButton } from "@/components/admin/CopyButton";
 import { formatAlias } from "@/lib/alias/display";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export const metadata = { title: "Signups — admin" };
 export const dynamic = "force-dynamic";
@@ -36,6 +37,7 @@ export default async function AdminSignupsPage({
 }: {
   searchParams: Promise<{ window?: string }>;
 }) {
+  await requireAdmin();
   const { window: range } = await searchParams;
   const sinceDays =
     range === "30"
@@ -118,7 +120,7 @@ export default async function AdminSignupsPage({
       </div>
 
       {error ? (
-        <p className="rounded-[10px] bg-error/10 px-4 py-3 text-sm text-error">
+        <p className="rounded-input bg-error/10 px-4 py-3 text-sm text-error">
           {"message" in error ? error.message : "Could not load signups."}
         </p>
       ) : rows.length === 0 ? (

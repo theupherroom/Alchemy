@@ -84,8 +84,8 @@ export function OpsTriggers() {
               <p
                 className={
                   result.ok
-                    ? "mt-3 rounded-[10px] bg-success-bg px-3 py-2 text-xs text-success"
-                    : "mt-3 rounded-[10px] bg-error/10 px-3 py-2 text-xs text-error"
+                    ? "mt-3 rounded-input bg-success-bg px-3 py-2 text-xs text-success"
+                    : "mt-3 rounded-input bg-error/10 px-3 py-2 text-xs text-error"
                 }
               >
                 {result.message}

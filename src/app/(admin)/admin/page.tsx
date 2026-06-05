@@ -1,11 +1,13 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Card, CardBody } from "@/components/ui/Card";
 import Link from "next/link";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export const metadata = { title: "Admin — alchemy" };
 export const dynamic = "force-dynamic";
 
 export default async function AdminOverviewPage() {
+  await requireAdmin();
   const admin = createAdminClient();
 
   const day = new Date(Date.now() - 86_400_000).toISOString();

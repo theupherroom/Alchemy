@@ -9,6 +9,7 @@ import { FlagButton } from "@/components/profile/FlagButton";
 import { CompatibilityBars } from "@/components/profile/CompatibilityBars";
 import { RespondButtons } from "../RespondButtons";
 import { CelebrationOverlay } from "./CelebrationOverlay";
+import { RescheduleButton } from "./RescheduleButton";
 import {
   GEO_OPTIONS,
   ORG_TYPE_OPTIONS,
@@ -157,7 +158,7 @@ export default async function MatchDetailPage({
                   value={labelOf(SECTOR_OPTIONS, other.sector)}
                 />
                 <KeyValue
-                  label="Organisation type"
+                  label="Organization type"
                   value={labelOf(ORG_TYPE_OPTIONS, other.org_type)}
                 />
                 <KeyValue
@@ -224,18 +225,23 @@ export default async function MatchDetailPage({
                     minute: "2-digit",
                   })}
                 </p>
-                {meeting.meet_link ? (
-                  <a
-                    href={meeting.meet_link}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex h-11 w-fit items-center rounded-full bg-primary px-6 text-sm font-medium text-white"
-                  >
-                    Open Google Meet ↗
-                  </a>
-                ) : null}
+                <div className="flex flex-wrap items-center gap-3">
+                  {meeting.meet_link ? (
+                    <a
+                      href={meeting.meet_link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex h-11 items-center rounded-full bg-primary px-6 text-sm font-medium text-white transition active:scale-[0.98] hover:bg-primary-hover"
+                    >
+                      Open Google Meet ↗
+                    </a>
+                  ) : null}
+                  <RescheduleButton matchId={matchId} />
+                </div>
                 <p className="pt-2 text-xs text-muted">
-                  You'll find out who they are when you show up.
+                  You'll find out who they are when you show up. Need a
+                  different time? Reschedule and we'll pick the next free
+                  30-minute window on both calendars.
                 </p>
               </CardBody>
             </Card>

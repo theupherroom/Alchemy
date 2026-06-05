@@ -153,7 +153,7 @@ function Hero({ signedIn }: { signedIn: boolean }) {
             subtitle="Health · Indianapolis · Strategic"
             mission="We help under-resourced clinics deliver preventive care to women over 50."
             offer="Vendor relationships, board advisory"
-            need="Funder intros, programme co-design"
+            need="Funder intros, program co-design"
             score={87}
             rotateClass="md:-rotate-2"
           />
@@ -186,7 +186,7 @@ function ExchangeSection() {
             </h2>
             <p className="max-w-md text-base leading-relaxed text-muted">
               The platform helps mission-driven leaders identify compatible
-              partners by prioritising work alignment over credentials or
+              partners by prioritizing work alignment over credentials or
               connections. Users create anonymous profiles, review matched
               opportunities, and reveal identity only after mutual agreement to
               proceed.
@@ -230,7 +230,7 @@ function ExchangeSection() {
             subtitle="Finance · National · Sponsorship"
             mission="Scholarship pipeline for first-gen STEM students."
             offer="Sponsorship budget, alumni network"
-            need="Rural-area programmes, on-the-ground partners"
+            need="Rural-area programs, on-the-ground partners"
             score={91}
             rotateClass="md:-rotate-1"
           />
@@ -245,12 +245,12 @@ function HowItWorks() {
     {
       n: "01",
       title: "Register behind an alias.",
-      body: "Members see Partner Violet-42 — not your name, organisation, or photo. All profiles undergo internal verification before matching initiates.",
+      body: "Members see Partner Violet-42 — not your name, organization, or photo. All profiles undergo internal verification before matching initiates.",
     },
     {
       n: "02",
       title: "Browse missions, not headshots.",
-      body: "The system prioritises mission-alignment, using AI to assess genuine compatibility while disregarding titles and organisational logos.",
+      body: "The system prioritizes mission-alignment, using AI to assess genuine compatibility while disregarding titles and organizational logos.",
     },
     {
       n: "03",
@@ -353,7 +353,7 @@ function BuiltBy() {
             </a>
           </div>
           <p className="text-base leading-relaxed text-muted md:text-lg">
-            The organisation advances leadership development, capacity building,
+            The organization advances leadership development, capacity building,
             and economic mobility for women, believing influence develops
             through access, preparation, collaboration, and strategic
             networking. Alchemy represents their technology initiative making
@@ -434,10 +434,10 @@ function BuiltFor() {
           </div>
           <p className="text-base leading-relaxed text-muted md:text-lg">
             Alchemy serves mission-focused founders, nonprofit directors,
-            social entrepreneurs, and organisational changemakers. Originating
+            social entrepreneurs, and organizational changemakers. Originating
             as an innovation project within The UpHer Room, the platform
             addresses systemic biases limiting exceptional leaders — now
-            accessible to any leader prioritising mission impact.
+            accessible to any leader prioritizing mission impact.
           </p>
         </div>
       </Reveal>

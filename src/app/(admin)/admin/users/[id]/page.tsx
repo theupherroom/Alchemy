@@ -7,6 +7,7 @@ import { Divider } from "@/components/ui/Divider";
 import { CopyButton } from "@/components/admin/CopyButton";
 import { UserActions } from "@/components/admin/UserActions";
 import { formatAlias } from "@/lib/alias/display";
+import { requireAdmin } from "@/lib/auth/admin";
 import {
   GEO_OPTIONS,
   ORG_TYPE_OPTIONS,
@@ -23,6 +24,7 @@ export default async function AdminUserDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
+  await requireAdmin();
   const { id } = await params;
   const admin = createAdminClient();
 
@@ -200,7 +202,7 @@ export default async function AdminUserDetailPage({
               {flagsAgainst.map((f) => (
                 <li
                   key={f.id}
-                  className="rounded-[10px] border border-border bg-cream-deep/40 p-3 text-xs"
+                  className="rounded-input border border-border bg-cream-deep/40 p-3 text-xs"
                 >
                   <p className="text-ink">
                     {f.reason || <span className="text-muted">(no reason given)</span>}

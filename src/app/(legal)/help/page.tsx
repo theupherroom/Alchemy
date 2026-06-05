@@ -5,7 +5,7 @@ export const metadata = { title: "Help & FAQ — alchemy" };
 const FAQ = [
   {
     q: "Why does alchemy keep me anonymous?",
-    a: "Most networking platforms reward who you already know. alchemy reverses that — the mission and partnership fit are the only signals other members see until you both confirm a meeting. That removes the bias that gatekeeps strategic introductions for women-owned and mission-driven organisations.",
+    a: "Most networking platforms reward who you already know. alchemy reverses that — the mission and partnership fit are the only signals other members see until you both confirm a meeting. That removes the bias that gatekeeps strategic introductions for women-owned and mission-driven organizations.",
   },
   {
     q: "When do other members see my real name?",
@@ -33,7 +33,7 @@ const FAQ = [
   },
   {
     q: "Who is alchemy for?",
-    a: "Mission-driven founders, entrepreneurs, and organisational leaders. Women-owned businesses get first access. Built by The UpHer Room Inc., a Center of Excellence advancing leadership for women.",
+    a: "Mission-driven founders, entrepreneurs, and organizational leaders. Women-owned businesses get first access. Built by The UpHer Room Inc., a Center of Excellence advancing leadership for women.",
   },
 ];
 

@@ -252,7 +252,7 @@ function MatchRowCard({
         </Link>
 
         {isAccepted && meeting ? (
-          <div className="rounded-[10px] bg-success-bg px-4 py-3 text-sm text-success">
+          <div className="rounded-input bg-success-bg px-4 py-3 text-sm text-success">
             <p className="font-medium">
               Intro meeting:{" "}
               {new Date(meeting.starts_at).toLocaleString(undefined, {
@@ -277,7 +277,7 @@ function MatchRowCard({
         ) : null}
 
         {match.status === "accepted" && !meeting ? (
-          <div className="rounded-[10px] bg-warning/10 px-4 py-3 text-xs text-warning">
+          <div className="rounded-input bg-warning/10 px-4 py-3 text-xs text-warning">
             Match accepted — we are still trying to find a time on both your
             calendars. Connect Google Calendar if you haven&apos;t already.
           </div>

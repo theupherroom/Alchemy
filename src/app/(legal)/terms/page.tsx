@@ -22,7 +22,7 @@ export default function TermsPage() {
 
         <Section title="Eligibility">
           You must be 18 or older, legally able to enter into contracts, and
-          representing yourself or an organisation you are authorised to
+          representing yourself or an organization you are authorized to
           represent. One person, one account. Misrepresenting identity or
           affiliation is grounds for suspension.
         </Section>

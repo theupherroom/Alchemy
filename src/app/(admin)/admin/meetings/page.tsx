@@ -4,11 +4,13 @@ import { Card, CardBody } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { formatAlias } from "@/lib/alias/display";
 import { contactLine } from "@/lib/profile/contact";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export const metadata = { title: "Meetings — admin" };
 export const dynamic = "force-dynamic";
 
 export default async function AdminMeetingsPage() {
+  await requireAdmin();
   const admin = createAdminClient();
   const { data: meetings } = await admin
     .from("meetings")

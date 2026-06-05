@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) {
-    return NextResponse.json({ error: "unauthorised" }, { status: 401 });
+    return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   }
   await clearTokens(user.id);
   return NextResponse.redirect(new URL("/settings/calendar?disconnected=1", request.url), {

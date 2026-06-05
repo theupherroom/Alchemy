@@ -4,6 +4,7 @@ import { Card, CardBody } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { formatAlias } from "@/lib/alias/display";
 import { contactLine } from "@/lib/profile/contact";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export const metadata = { title: "Flags — admin" };
 export const dynamic = "force-dynamic";
@@ -17,6 +18,7 @@ type FlagRow = {
 };
 
 export default async function AdminFlagsPage() {
+  await requireAdmin();
   const admin = createAdminClient();
   const { data: flags } = await admin
     .from("flags")

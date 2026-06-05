@@ -1,11 +1,13 @@
 import { Card, CardBody } from "@/components/ui/Card";
 import { OpsTriggers } from "@/components/admin/OpsTriggers";
 import { headers } from "next/headers";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export const metadata = { title: "Ops — admin" };
 export const dynamic = "force-dynamic";
 
 export default async function AdminOpsPage() {
+  await requireAdmin();
   const host = (await headers()).get("host") ?? "alchemy.theupherroom.com";
   const proto = host.startsWith("localhost") ? "http" : "https";
 

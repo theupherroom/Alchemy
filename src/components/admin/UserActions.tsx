@@ -191,7 +191,7 @@ export function UserActions({
       </div>
 
       {error ? (
-        <p className="rounded-[10px] bg-error/10 px-3 py-2 text-xs text-error">
+        <p className="rounded-input bg-error/10 px-3 py-2 text-xs text-error">
           {error}
         </p>
       ) : null}

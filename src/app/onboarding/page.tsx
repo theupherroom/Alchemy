@@ -29,7 +29,7 @@ export default async function OnboardingPage() {
             Your anonymous profile.
           </h1>
           <p className="max-w-md text-base leading-relaxed text-muted">
-            Lead with the mission. Name and organisation stay hidden until you
+            Lead with the mission. Name and organization stay hidden until you
             and a match are both on the calendar.
           </p>
         </div>

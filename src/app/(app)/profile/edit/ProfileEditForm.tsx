@@ -85,7 +85,7 @@ export function ProfileEditForm({ defaults }: { defaults: Defaults }) {
             </Select>
           </Label>
           <Label htmlFor="org_type">
-            Organisation type
+            Organization type
             <Select
               id="org_type"
               name="org_type"
@@ -181,7 +181,7 @@ export function ProfileEditForm({ defaults }: { defaults: Defaults }) {
             {PARTNERSHIP_TYPE_OPTIONS.map((o) => (
               <label
                 key={o.value}
-                className="flex cursor-pointer items-start gap-3 rounded-[10px] border border-border bg-white p-3 transition-colors duration-200 hover:border-primary/40 has-[:checked]:border-primary has-[:checked]:bg-primary-bg/40"
+                className="flex cursor-pointer items-start gap-3 rounded-input border border-border bg-white p-3 transition-colors duration-200 hover:border-primary/40 has-[:checked]:border-primary has-[:checked]:bg-primary-bg/40"
               >
                 <input
                   type="checkbox"
@@ -225,7 +225,7 @@ export function ProfileEditForm({ defaults }: { defaults: Defaults }) {
             />
           </Label>
           <Label htmlFor="org_name">
-            Organisation name
+            Organization name
             <Input
               id="org_name"
               name="org_name"

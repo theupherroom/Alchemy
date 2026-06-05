@@ -115,7 +115,7 @@ export default async function BrowsePage({
         </aside>
         <div className="space-y-6">
           {error ? (
-            <p className="rounded-[10px] bg-error/10 px-4 py-3 text-sm text-error">
+            <p className="rounded-input bg-error/10 px-4 py-3 text-sm text-error">
               Could not load profiles. Refresh to try again.
             </p>
           ) : list.length === 0 ? (

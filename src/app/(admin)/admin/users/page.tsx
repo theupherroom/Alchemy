@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 import { CopyButton } from "@/components/admin/CopyButton";
 import { formatAlias } from "@/lib/alias/display";
 import type { ProfileStatus } from "@/types/database";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export const metadata = { title: "Users — admin" };
 export const dynamic = "force-dynamic";
@@ -22,6 +23,7 @@ export default async function AdminUsersPage({
 }: {
   searchParams: Promise<{ status?: Filter; q?: string }>;
 }) {
+  await requireAdmin();
   const { status = "all", q = "" } = await searchParams;
   const admin = createAdminClient();
 
@@ -92,7 +94,7 @@ export default async function AdminUsersPage({
       </div>
 
       {error ? (
-        <p className="rounded-[10px] bg-error/10 px-4 py-3 text-sm text-error">
+        <p className="rounded-input bg-error/10 px-4 py-3 text-sm text-error">
           {error.message}
         </p>
       ) : rows.length === 0 ? (

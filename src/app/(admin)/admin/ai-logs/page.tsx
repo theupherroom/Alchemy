@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { Card, CardBody } from "@/components/ui/Card";
+import { requireAdmin } from "@/lib/auth/admin";
 
 export const metadata = { title: "AI cost — admin" };
 export const dynamic = "force-dynamic";
@@ -17,6 +18,7 @@ function costUsd(input: number, output: number): number {
 }
 
 export default async function AdminAILogsPage() {
+  await requireAdmin();
   const admin = createAdminClient();
   const day = new Date(Date.now() - 86_400_000).toISOString();
   const week = new Date(Date.now() - 7 * 86_400_000).toISOString();

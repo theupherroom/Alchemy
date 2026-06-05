@@ -1,14 +1,22 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/auth/admin";
 
+// Ordered by user journey: sign up → onboard → wait for approval → become
+// active member → match + meet → flag if bad behavior. Operations sits at
+// the end as system-wide rather than user-stage.
 const NAV = [
   { href: "/admin", label: "Overview" },
-  { href: "/admin/users", label: "Users" },
   { href: "/admin/signups", label: "Signups" },
-  { href: "/admin/flags", label: "Flags" },
-  { href: "/admin/meetings", label: "Meetings" },
+  {
+    href: "/admin/users?status=pending_approval",
+    label: "Pending",
+    match: ["/admin/users?status=pending_approval"],
+  },
+  { href: "/admin/users?status=active", label: "Members", match: ["/admin/users"] },
+  { href: "/admin/meetings", label: "Activity" },
+  { href: "/admin/flags", label: "Moderation" },
   { href: "/admin/ai-logs", label: "AI cost" },
-  { href: "/admin/ops", label: "Ops" },
+  { href: "/admin/ops", label: "Operations" },
 ];
 
 export default async function AdminLayout({

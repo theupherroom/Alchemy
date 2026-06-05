@@ -14,17 +14,17 @@ export function ScoreLoader({ candidateId }: ScoreLoaderProps) {
   const [score, setScore] = useState<number | null | undefined>(undefined);
 
   useEffect(() => {
-    let cancelled = false;
+    let canceled = false;
     fetch(`/api/score?candidate=${encodeURIComponent(candidateId)}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error("score_failed"))))
       .then((data: { score: number | null }) => {
-        if (!cancelled) setScore(data.score);
+        if (!canceled) setScore(data.score);
       })
       .catch(() => {
-        if (!cancelled) setScore(null);
+        if (!canceled) setScore(null);
       });
     return () => {
-      cancelled = true;
+      canceled = true;
     };
   }, [candidateId]);
 

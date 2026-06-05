@@ -61,7 +61,7 @@ export function FlagButton({ reportedId, reportedAlias }: FlagButtonProps) {
               Flag {formatAlias(reportedAlias)}?
             </h2>
             <p className="mt-3 text-sm leading-relaxed text-muted">
-              Use this for bad-faith behaviour — no-shows, harassment, or
+              Use this for bad-faith behavior — no-shows, harassment, or
               misrepresentation. Three flags suspend a profile automatically.
             </p>
             <label className="mt-4 block text-xs font-medium text-ink">
@@ -70,17 +70,17 @@ export function FlagButton({ reportedId, reportedAlias }: FlagButtonProps) {
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 rows={4}
-                className="mt-2 w-full rounded-[10px] border border-border bg-white p-3 text-sm leading-relaxed focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="mt-2 w-full rounded-input border border-border bg-white p-3 text-sm leading-relaxed focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
                 placeholder="No-show for our scheduled meeting last week…"
               />
             </label>
             {error ? (
-              <p className="mt-3 rounded-[10px] bg-error/10 px-3 py-2 text-xs text-error">
+              <p className="mt-3 rounded-input bg-error/10 px-3 py-2 text-xs text-error">
                 {error}
               </p>
             ) : null}
             {success ? (
-              <p className="mt-3 rounded-[10px] bg-success/10 px-3 py-2 text-xs text-success">
+              <p className="mt-3 rounded-input bg-success/10 px-3 py-2 text-xs text-success">
                 Flag submitted. Thank you for keeping the platform honest.
               </p>
             ) : null}
