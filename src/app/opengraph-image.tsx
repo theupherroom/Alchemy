@@ -96,14 +96,17 @@ export default function OpengraphImage() {
           </div>
           <div
             style={{
+              display: "flex",
+              flexWrap: "wrap",
               fontSize: 36,
               lineHeight: 1.15,
-              color: "#4b3621",
               maxWidth: 900,
+              gap: "0 10px",
             }}
           >
-            Partnerships built on{" "}
-            <span style={{ color: "#d35400" }}>impact.</span> Not identity.
+            <span style={{ color: "#4b3621" }}>Partnerships built on</span>
+            <span style={{ color: "#d35400" }}>impact.</span>
+            <span style={{ color: "#4b3621" }}>Not identity.</span>
           </div>
         </div>
 
