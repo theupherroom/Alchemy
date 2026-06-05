@@ -13,13 +13,28 @@ const REASONS: Record<string, string> = {
     "We don't have event IDs to update. Cancel and re-accept to start over.",
   match_not_found: "Match not found.",
   meeting_not_found: "No meeting to reschedule.",
+  reschedule_limit_reached:
+    "This meeting has already been rescheduled twice. The current time stands.",
 };
 
-export function RescheduleButton({ matchId }: { matchId: string }) {
+type RescheduleButtonProps = {
+  matchId: string;
+  rescheduleCount: number;
+  rescheduleLimit?: number;
+};
+
+export function RescheduleButton({
+  matchId,
+  rescheduleCount,
+  rescheduleLimit = 2,
+}: RescheduleButtonProps) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+
+  const remaining = Math.max(0, rescheduleLimit - rescheduleCount);
+  const atLimit = remaining === 0;
 
   function fire() {
     setError(null);
@@ -45,6 +60,19 @@ export function RescheduleButton({ matchId }: { matchId: string }) {
     });
   }
 
+  if (atLimit) {
+    return (
+      <button
+        type="button"
+        disabled
+        title="This meeting has been rescheduled twice already."
+        className="rounded-full border border-border bg-cream-deep px-4 py-2 text-xs font-medium text-muted"
+      >
+        Reschedules used (2/2)
+      </button>
+    );
+  }
+
   return (
     <>
       <button
@@ -53,6 +81,7 @@ export function RescheduleButton({ matchId }: { matchId: string }) {
         className="rounded-full border border-border bg-white px-4 py-2 text-xs font-medium text-ink transition hover:border-primary/40 hover:text-primary-fg active:scale-[0.98]"
       >
         Reschedule
+        <span className="ml-1.5 text-muted">({remaining} left)</span>
       </button>
 
       {open ? (
@@ -73,7 +102,13 @@ export function RescheduleButton({ matchId }: { matchId: string }) {
             <p className="mt-3 text-sm leading-relaxed text-muted">
               We'll search both calendars for the next available 30-minute
               overlap (within the next 3 weeks) and move the event there. The
-              Google Meet link stays the same.
+              Google Meet link stays the same. The other party gets an email
+              about the new time.
+            </p>
+            <p className="mt-2 text-xs text-muted">
+              You have <strong className="text-ink">{remaining}</strong>{" "}
+              reschedule{remaining === 1 ? "" : "s"} left on this meeting.
+              {remaining === 1 ? " After this one, the time is locked." : ""}
             </p>
 
             {error ? (

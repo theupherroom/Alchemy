@@ -66,7 +66,7 @@ export default async function MatchDetailPage({
   const { data: meeting } = match.status === "accepted"
     ? await admin
         .from("meetings")
-        .select("starts_at, ends_at, meet_link")
+        .select("starts_at, ends_at, meet_link, reschedule_count")
         .eq("match_id", matchId)
         .maybeSingle()
     : { data: null };
@@ -236,7 +236,10 @@ export default async function MatchDetailPage({
                       Open Google Meet ↗
                     </a>
                   ) : null}
-                  <RescheduleButton matchId={matchId} />
+                  <RescheduleButton
+                    matchId={matchId}
+                    rescheduleCount={meeting.reschedule_count ?? 0}
+                  />
                 </div>
                 <p className="pt-2 text-xs text-muted">
                   You'll find out who they are when you show up. Need a

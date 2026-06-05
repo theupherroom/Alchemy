@@ -182,6 +182,7 @@ export type Database = {
           meet_link: string | null;
           starts_at: string;
           ends_at: string;
+          reschedule_count: number;
           created_at: string;
         };
         Insert: {
@@ -192,6 +193,7 @@ export type Database = {
           meet_link?: string | null;
           starts_at: string;
           ends_at: string;
+          reschedule_count?: number;
           created_at?: string;
         };
         Update: Partial<{
@@ -200,6 +202,7 @@ export type Database = {
           meet_link: string | null;
           starts_at: string;
           ends_at: string;
+          reschedule_count: number;
         }>;
         Relationships: [];
       };

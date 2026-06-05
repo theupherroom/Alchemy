@@ -41,7 +41,7 @@ export async function POST(
     );
   }
 
-  const result = await rescheduleMatch(matchId);
+  const result = await rescheduleMatch(matchId, user.id);
 
   if (!result.success) {
     const status =
@@ -50,7 +50,9 @@ export async function POST(
         ? 412
         : result.reason === "no_overlap"
           ? 409
-          : 500;
+          : result.reason === "reschedule_limit_reached"
+            ? 429
+            : 500;
     return NextResponse.json(
       { error: result.reason, message: result.message },
       { status },
@@ -61,5 +63,7 @@ export async function POST(
     starts_at: result.startsAt,
     ends_at: result.endsAt,
     meet_link: result.meetLink,
+    reschedule_count: result.rescheduleCount,
+    remaining_reschedules: result.remainingReschedules,
   });
 }
